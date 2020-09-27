@@ -4,7 +4,9 @@
   "description": "LeviosaDocs, c'est un peu comme Google Docs mais en mieux !",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "archi": "[ -f package.json -a -f client/package.json ]",
+    "coding-style": "npx standard",
+    "test": "npm install && npm run archi && npm run coding-style",
     "start": "node server.js"
   },
   "author": "Leviosa",
