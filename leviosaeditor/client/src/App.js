@@ -1,20 +1,19 @@
-import React from 'react';
-import './App.css';
-import './pages/Editor';
-import Editor from './pages/Editor';
+import React from 'react'
+import './App.css'
+import Editor from './pages/Editor'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-      <title>Realtime Editor/Collaboration</title>
+    <div className='App'>
+      <header className='App-header'>
+        <title>Realtime Editor/Collaboration</title>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <Editor/>
+        <Editor />
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
