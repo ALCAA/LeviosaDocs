@@ -12,9 +12,9 @@ class Editor extends Component {
     this.state = {
       text: ''
     }
-	this.setTextFromSocket();
-	
-	this.handleSendingToSocket = this.handleSendingToSocket.bind(this);
+    this.setTextFromSocket()
+
+    this.handleSendingToSocket = this.handleSendingToSocket.bind(this)
   }
 
   // after event of typing in textbox, set text with the new value
