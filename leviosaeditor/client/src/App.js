@@ -7,9 +7,6 @@ function App () {
     <div className='App'>
       <header className='App-header'>
         <title>Realtime Editor/Collaboration</title>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <Editor />
       </header>
     </div>
