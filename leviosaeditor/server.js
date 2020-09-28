@@ -9,11 +9,11 @@ http.listen(port, () => log(`server listening on port: ${port}`));
 //then listen for incoming message on recepted messages
 //and broadcast message, found in setTextFromSocket in Editor.js
 io.on('connection', (socket) => {
-    log('connected');
+    console.log("New client connected : " + socket.id);
     socket.on('message', (evt) => {
         socket.broadcast.emit('message', evt);
     });
 })
 io.on('disconnect', (evt) => {
-    log('some people left');
+    console.log('some people left');
 })
