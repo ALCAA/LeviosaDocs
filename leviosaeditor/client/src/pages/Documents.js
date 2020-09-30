@@ -9,7 +9,7 @@ class Documents extends React.Component {
         return (
             <div className='App'>
                 <header className='App-header'>
-                    <TopBar/>
+                    <TopBar username={this.props.location.username}/>
                     <ItemBar />
                 </header>
                 <body className='App-body'>

@@ -44,7 +44,9 @@ class Login extends React.Component {
                                        value={this.state.username}
                                        onChange={(e) => {this.setState({username: e.target.value});}}
                                        required />
-                            <Link to="/documents">
+                            <Link to={{
+                                pathname: "/documents",
+                                username: this.state.username}}>
                                 <Button id='submit-login' variant="contained" color="primary" className={classes.submit}>
                                     Continuer
                                 </Button>
