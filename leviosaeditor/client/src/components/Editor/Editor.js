@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import './Editor.css'
+import '../components/ItemBar/ItemBar.css'
 import socketIOClient from 'socket.io-client'
 
 // construct socket
 const socket = socketIOClient('http://localhost:8000')
 
 class Editor extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {
       text: ''
@@ -21,9 +22,11 @@ class Editor extends Component {
   // and send it by socket message, found in server.js
 
   // asynchronous so can't send this.state.text (or there is a character missing)
-  handleSendingToSocket (event) {
-    this.setState({ text: event.target.value })
-    socket.send(event.target.value)
+  handleSendingToSocket () {
+    var doc = document.getElementById('div-editor').innerHTML.toString()
+    doc = doc.replace("<div><br></div>", '\n');
+    socket.send(doc)
+    console.log('G envoye FDP ' + this.state.text)
   }
 
   // Listen on messages incoming from socket and set text with data from Socket
@@ -31,14 +34,19 @@ class Editor extends Component {
     socket.on('message', (data) => {
       this.setState({ text: data })
     })
+    console.log('info' + this.state.text)
   }
 
   render () {
     return (
       <div>
-        <h3>Realtime Editor/Collaboration</h3>
         <div>
-          <textarea onChange={this.handleSendingToSocket} value={this.state.text} id='editor' placeholder='Type Your Text...' />
+          <div
+              id='div-editor'
+              contentEditable="true"
+              onInput={this.handleSendingToSocket}>
+            {this.state.text}
+          </div>
         </div>
       </div>
     )
