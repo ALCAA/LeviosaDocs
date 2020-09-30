@@ -1,15 +1,17 @@
 import React from 'react'
-import './App.css'
-import Editor from './pages/Editor'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import Login from './pages/Login'
+import Documents from './pages/Documents'
 
 function App () {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <title>Realtime Editor/Collaboration</title>
-        <Editor />
-      </header>
-    </div>
+      <Router>
+          <Switch>
+              <Route exact path='/login' component={Login} />
+              <Route path='/documents' component={Documents} />
+              <Route exact path='/' render={() => <Redirect to='/login' />} />
+          </Switch>
+      </Router>
   )
 }
 

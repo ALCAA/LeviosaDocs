@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Editor.css'
-import '../components/ItemBar/ItemBar.css'
+import '../ItemBar/ItemBar.css'
 import socketIOClient from 'socket.io-client'
 
 // construct socket
