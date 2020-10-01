@@ -2,39 +2,43 @@ import React from 'react'
 import './ItemBar.css'
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import UndoIcon from "@material-ui/icons/Undo";
 
 
  class ItemBar extends React.Component {
+     constructor() {
+         super();
+     }
+
     selectText = () => {
         const input = document.getElementById('input');
         input.focus();
         input.setSelectionRange(2, 5);
     }
+
      toggleBold = () => {
-         var newDiv = document.createElement("b");
-         // et lui donne un peu de contenu
-         var newContent = document.createTextNode('');
-         // ajoute le nœud texte au nouveau div créé
-         newDiv.appendChild(newContent);
+         document.execCommand('bold');
 
-         // ajoute le nouvel élément créé et son contenu dans le DOM
-         var currentDiv = document.getElementById('div1');
-         document.body.insertBefore(newDiv, currentDiv);
      }
-    toggleItalic = () => {
-
-    }
-    toggleUnderline = () => {
-    }
+     toggleItalic = () => {
+         document.execCommand('italic', false, "");
+     }
+     toggleUnderline = () => {
+         document.execCommand('underline');
+     }
+     toggleUndo = () => {
+         document.execCommand('undo');
+     }
 
     render () {
 
         return(
             <div>
                 <div id="items-bar" >
-                    <Button id="button" onClick={this.toggleBold()}>B</Button>
-                    <Button onClick={this.toggleItalic}>I</Button>
-                    <Button onClick={this.toggleUnderline}>U</Button>
+                    <Button id="button" onClick={this.toggleBold()}><b>B</b></Button>
+                    <Button onClick={this.toggleItalic}><em>I</em></Button>
+                    <Button onClick={this.toggleUnderline}><u>U</u></Button>
+                    <Button onClick={() => (document.execCommand('undo'))} startIcon={<UndoIcon />}/>
                     <Button startIcon={<CloudUploadIcon />}/>
                 </div>
             </div>

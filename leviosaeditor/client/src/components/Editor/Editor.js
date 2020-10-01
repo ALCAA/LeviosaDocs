@@ -11,11 +11,14 @@ class Editor extends Component {
     super(props)
 
     this.state = {
-      text: ''
+      text: '',
     }
     this.setTextFromSocket()
-
     this.handleSendingToSocket = this.handleSendingToSocket.bind(this)
+  }
+
+  formatDoc = (sCmd) => {
+    document.execCommand(sCmd);
   }
 
   // after event of typing in textbox, set text with the new value
@@ -23,18 +26,16 @@ class Editor extends Component {
 
   // asynchronous so can't send this.state.text (or there is a character missing)
   handleSendingToSocket () {
-    var doc = document.getElementById('div-editor').innerHTML.toString()
-    doc = doc.replace("<div><br></div>", '\n');
-    socket.send(doc)
-    console.log('G envoye FDP ' + this.state.text)
+    var doc = document.getElementById('div-editor').innerHTML;
+    socket.send(doc);
   }
 
   // Listen on messages incoming from socket and set text with data from Socket
   setTextFromSocket () {
     socket.on('message', (data) => {
+      document.getElementById('div-editor').innerHTML = data;
       this.setState({ text: data })
     })
-    console.log('info' + this.state.text)
   }
 
   render () {
@@ -45,7 +46,7 @@ class Editor extends Component {
               id='div-editor'
               contentEditable="true"
               onInput={this.handleSendingToSocket}>
-            {this.state.text}
+            {this.state.text.innerHTML}
           </div>
         </div>
       </div>
