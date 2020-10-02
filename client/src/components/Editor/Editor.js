@@ -41,9 +41,8 @@ class Editor extends Component {
           <div
             id='div-editor'
             contentEditable='true'
-            onInput={this.handleSendingToSocket}
-          >
-            {this.state.text.innerHTML}
+            spellCheck="true"
+            onInput={this.handleSendingToSocket}>
           </div>
         </div>
       </div>

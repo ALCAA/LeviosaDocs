@@ -1,9 +1,10 @@
 #items-bar {
     background-color: #e0e0e0;
     text-align: center;
+    flex-direction: column;
 }
 
-#bold-btn:active, #bold-btn:focus {
+#bold-btn:active, #bold-btn:focus, #bold-btn:checked {
     background-color: lightblue;
     color: white;
 }
