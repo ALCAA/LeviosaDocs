@@ -3,6 +3,7 @@ import './ItemBar.css'
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import UndoIcon from "@material-ui/icons/Undo";
+import RedoIcon from "@material-ui/icons/Redo";
 
 
  class ItemBar extends React.Component {
@@ -39,6 +40,7 @@ import UndoIcon from "@material-ui/icons/Undo";
                     <Button onClick={this.toggleItalic}><em>I</em></Button>
                     <Button onClick={this.toggleUnderline}><u>U</u></Button>
                     <Button onClick={() => (document.execCommand('undo'))} startIcon={<UndoIcon />}/>
+                    <Button onClick={() => (document.execCommand('redo'))} startIcon={<RedoIcon />}/>
                     <Button startIcon={<CloudUploadIcon />}/>
                 </div>
             </div>
