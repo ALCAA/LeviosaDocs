@@ -23,8 +23,8 @@ const useStyles = (theme) => ({
      constructor(props) {
          super(props);
          this.state = {
-             color: 'black',
-             font: '',
+             color: "black",
+             fontName: "Arial",
              fontSize: 4
          }
      }
@@ -38,9 +38,15 @@ const useStyles = (theme) => ({
          document.execCommand('image', false, photo);
      }
 
-     handleSelectChange = (event) => {
-         console.log(event.target.value)
+     handleSelectColorChange = (event) => {
          this.setState( {color: event.target.value} );
+     }
+
+     handleSelectNameChange = (event, fontName) => {
+         console.log(event.target.value)
+         this.setState( {fontName: event.target.value} );
+         document.execCommand('fontName', false, fontName)
+
      }
 
     render () {
@@ -74,8 +80,8 @@ const useStyles = (theme) => ({
                         <Select
                             labelId="select-color-label"
                             id="select-color"
-                            value={this.props.color}
-                            onChange={this.handleSelectChange}
+                            value={this.state.color}
+                            onChange={this.handleSelectColorChange}
                         >
                             <MenuItem
                                 onClick={() => document.execCommand('foreColor', false, "black")} value="black">Black
@@ -99,23 +105,17 @@ const useStyles = (theme) => ({
                         <Select
                             labelId="select-font-label"
                             id="select-font"
-                            value={this.props.font}
-                            onChange={this.handleSelectChange}
+                            value={this.state.font}
+                            onChange={this.handleSelectNameChange}
                         >
                             <MenuItem
-                                onClick={() => document.execCommand('foreColor', false, "black")} value="black">Black
+                                onClick={() => document.execCommand('fontName', false, "arial")} value="arial">Arial
                             </MenuItem>
                             <MenuItem
-                                onClick={() => document.execCommand('foreColor', false, "red")} value="red">Red
+                                onClick={() => document.execCommand('fontName', false, "calibri")} value="calibri">Calibri
                             </MenuItem>
                             <MenuItem
-                                onClick={() => document.execCommand('foreColor', false, "blue")} value="blue">Blue
-                            </MenuItem>
-                            <MenuItem
-                                onClick={() => document.execCommand('foreColor', false, "yellow")} value="yellow">Yellow
-                            </MenuItem>
-                            <MenuItem
-                                onClick={() => document.execCommand('foreColor', false, "green")} value="green">Green
+                                onClick={() => document.execCommand('fontName', false, "comic sans ms")} value="comic sans ms">Comic Sans MS
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -124,6 +124,9 @@ const useStyles = (theme) => ({
                                 const newSize = this.state.fontSize - 1
                                 this.setState({fontSize: newSize})
                                 document.execCommand('fontSize', false, newSize.toString());
+                            }
+                            else {
+                                document.execCommand('fontSize', false, "1");
                             }
                         }
                     } startIcon={<RemoveIcon />}/>
@@ -138,6 +141,9 @@ const useStyles = (theme) => ({
                                 const newSize = this.state.fontSize + 1
                                 this.setState({fontSize: newSize})
                                 document.execCommand('fontSize', false, newSize.toString());
+                            }
+                            else {
+                                document.execCommand('fontSize', false, "7");
                             }
                         }
                     } startIcon={<AddIcon />}/>
