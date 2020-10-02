@@ -12,9 +12,9 @@ class Documents extends React.Component {
           <TopBar username={this.props.location.username} />
           <ItemBar />
         </header>
-        <body className='App-body'>
+        <div className='App-body'>
           <Editor />
-        </body>
+        </div>
       </div>
     )
   }

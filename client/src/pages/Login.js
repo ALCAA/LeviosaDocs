@@ -32,7 +32,7 @@ class Login extends React.Component {
     return (
       <div className='Login'>
         <header className='App-header' />
-        <body className='App-body'>
+        <div className='App-body'>
           <form className={classes.root} autoComplete='off' noValidate>
             <div className='login-items'>
               <TextField
@@ -54,7 +54,7 @@ class Login extends React.Component {
               </Link>
             </div>
           </form>
-        </body>
+        </div>
       </div>
     )
   }
