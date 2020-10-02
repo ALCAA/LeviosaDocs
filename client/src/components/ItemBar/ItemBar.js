@@ -24,7 +24,7 @@ const useStyles = (theme) => ({
          super(props);
          this.state = {
              color: "black",
-             fontName: "Arial",
+             fontName: "arial",
              fontSize: 4
          }
      }
@@ -105,7 +105,7 @@ const useStyles = (theme) => ({
                         <Select
                             labelId="select-font-label"
                             id="select-font"
-                            value={this.state.font}
+                            value={this.state.fontName}
                             onChange={this.handleSelectNameChange}
                         >
                             <MenuItem
