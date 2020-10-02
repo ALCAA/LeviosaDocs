@@ -1,0 +1,16 @@
+#div-editor {
+	border: 1px solid gray;
+	display: flex;
+	flex-direction: column;
+
+	margin: 2% auto;
+	width: 600px;
+	height: 750px;
+	//min-height: 50px;  /* if you want Flexible textarea/div then give min-height instead of height */
+	overflow: auto;
+	padding: 2px;
+	resize: both;
+
+	background-color: white;
+	color: black;
+}

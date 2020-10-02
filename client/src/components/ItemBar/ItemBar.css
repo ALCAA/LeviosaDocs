@@ -1,0 +1,9 @@
+#items-bar {
+    background-color: #e0e0e0;
+    text-align: center;
+}
+
+#bold-btn:active, #bold-btn:focus {
+    background-color: lightblue;
+    color: white;
+}
