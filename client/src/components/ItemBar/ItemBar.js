@@ -53,12 +53,6 @@ const useStyles = (theme) => ({
 
      }
 
-      getSizeinfo() {
-         var size = document.getElementById('myFile').file[0].name;
-         console.log(size);
-
-     }
-
     render () {
         const { classes } = this.props
         return(
@@ -92,7 +86,6 @@ const useStyles = (theme) => ({
                     <Button id="image-btn"
                             onClick={() => (document.execCommand('insertimage', 0, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
                     />
-
                 </div>
                 <div id="items-bar-2">
                     <FormControl className={classes.formControl}>
@@ -173,11 +166,6 @@ const useStyles = (theme) => ({
                             }
                         }
                     } startIcon={<AddIcon />}/>
-                    <input type="file"
-                        id="myfile" name="myfile"
-                        accept="image/"
-                        onClick={() => getSizeinfo()}>
-                    </input>
                 </div>
                 <div id="items-bar-3">
                 </div>
