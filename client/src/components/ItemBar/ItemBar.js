@@ -8,6 +8,10 @@ import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import ImageIcon from '@material-ui/icons/Image';
+import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 
 const useStyles = (theme) => ({
     formControl: {
@@ -69,9 +73,18 @@ const useStyles = (theme) => ({
                     <Button id="redo-btn"
                             onClick={() => (document.execCommand('redo'))} startIcon={<RedoIcon />}
                             />
+                    <Button id="ol-btn"
+                            onClick={() => (document.execCommand('insertOrderedList'))} startIcon={<FormatListNumberedIcon />}
+                    />
+                    <Button id="ul-btn"
+                            onClick={() => (document.execCommand('insertUnorderedList'))} startIcon={<FormatListBulletedIcon />}
+                    />
+                    <Button id="justify-btn"
+                            onClick={() => (document.execCommand('justifyFull'))} startIcon={<FormatAlignJustifyIcon />}
+                    />
                     <Button id="img-btn" startIcon={<CloudUploadIcon />}/>
-                    <Button id="redo"
-                            onClick={() => (document.execCommand('image', false, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<RedoIcon />}
+                    <Button id="image-btn"
+                            onClick={() => (document.execCommand('image', false, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
                     />
                 </div>
                 <div id="items-bar-2">
