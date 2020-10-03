@@ -84,7 +84,7 @@ const useStyles = (theme) => ({
                     />
                     <Button id="img-btn" startIcon={<CloudUploadIcon />}/>
                     <Button id="image-btn"
-                            onClick={() => (document.execCommand('image', false, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
+                            onClick={() => (document.execCommand('insertimage', 0, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
                     />
                 </div>
                 <div id="items-bar-2">
@@ -129,6 +129,12 @@ const useStyles = (theme) => ({
                             </MenuItem>
                             <MenuItem
                                 onClick={() => document.execCommand('fontName', false, "comic sans ms")} value="comic sans ms">Comic Sans MS
+                            </MenuItem>
+                            <MenuItem
+                                onClick={() => document.execCommand('fontName', false, "times new roman")} value="times new roman">Times New Roman
+                            </MenuItem>
+                            <MenuItem
+                                onClick={() => document.execCommand('fontName', false, "ms gothic")} value="ms gothic">MS Gothic
                             </MenuItem>
                         </Select>
                     </FormControl>
