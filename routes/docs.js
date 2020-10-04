@@ -8,15 +8,15 @@ const docs = require('../models/Document')
 // @desc Create document
 // @access Public
 router.post('/create', (req, res) => {
-  const newdocs = new Document({
-    name: req.body.name,
-    creator: req.body.creator,
-    content: req.body.content
-  })
-  newdocs
-    .save()
-    .then(docs => res.json(docs))
-    .catch(err => console.log(err))
+	const newdocs = new Document({
+		name: req.body.name,
+		creator: req.body.creator,
+		content: req.body.content
+	})
+	newdocs
+		.save()
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
 })
 
 // @route POST docs/delete
@@ -36,6 +36,17 @@ router.post('/save', (req, res) =>
 {
 	docs
 		.updateOne(req.body)
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
+})
+
+// @route POST docs/show
+// @desc Show documents owns by a user
+// @access Public
+router.post('/show', (req, res) => 
+{
+	docs
+		.find({ creator: { $in: req.body.user } })
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
 })
