@@ -13,6 +13,7 @@ const cookieParser = require('cookie-parser')
 
 // Routes
 const users = require('./routes/users')
+const docs = require('./routes/docs')
 
 // Setup server
 const port = process.env.PORT || 8000
@@ -47,7 +48,9 @@ app.use(passport.initialize())
 // Passport config
 require('./config/passport')(passport)
 
+// Using routes with express
 app.use('/users', users)
+app.use('/docs', docs)
 
 //Listen for incoming connection event
 //then listen for incoming message on recepted messages
