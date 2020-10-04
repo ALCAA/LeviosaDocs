@@ -19,8 +19,23 @@ router.post('/create', (req, res) => {
     .catch(err => console.log(err))
 })
 
+// @route POST docs/delete
+// @desc Delete document
+// @access Public
 router.post('/delete', (req, res) => {
-	return docs.deleteOne(req.body)
+	docs
+		.deleteOne(req.body)
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
+})
+
+// @route POST docs/save
+// @desc Save document
+// @access Public
+router.post('/save', (req, res) => 
+{
+	docs
+		.updateOne(req.body)
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
 })
