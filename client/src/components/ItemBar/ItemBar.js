@@ -23,6 +23,27 @@ const useStyles = (theme) => ({
     },
 })
 
+function getDataUrl(img) {
+
+    const canvas = document.getElementById('myfile');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = img.width;
+    canvas.height = img.height;
+    
+    ctx.drawImage(img, 0, 0);
+    return canvas.toDataURL('image/jpeg');
+ }
+ 
+ const img = document.querySelector('myfile');
+ if(img)
+ {
+ img.addEventListener('load', function (event) {
+    const dataUrl = getDataUrl(event.currentTarget);
+    console.log(dataUrl);
+ });
+}
+
  class ItemBar extends React.Component {
      constructor(props) {
          super(props);
@@ -83,9 +104,10 @@ const useStyles = (theme) => ({
                             onClick={() => (document.execCommand('justifyFull'))} startIcon={<FormatAlignJustifyIcon />}
                     />
                     <Button id="img-btn" startIcon={<CloudUploadIcon />}/>
-                    <Button id="image-btn"
+                    <Button  id="image-btn"                       
                             onClick={() => (document.execCommand('insertimage', 0, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
                     />
+
                 </div>
                 <div id="items-bar-2">
                     <FormControl className={classes.formControl}>
@@ -166,6 +188,15 @@ const useStyles = (theme) => ({
                             }
                         }
                     } startIcon={<AddIcon />}/>
+                    <input type="file"
+                        id="myfile" name="myfile"
+                        accept="image/">
+                            
+                    </input>
+                    <Button  id="image-btn"                       
+                            onClick={() => getDataUrl(document.getElementById('myfile'))} startIcon={<ImageIcon/>}
+                    />  
+                    
                 </div>
                 <div id="items-bar-3">
                 </div>
