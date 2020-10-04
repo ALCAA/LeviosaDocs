@@ -7,9 +7,9 @@ const DocumentSchema = new Schema({
 		type: String,
 		required: true
 	},
-	creator_mail: {
-    	type: String,
-    	required: true
+	creator: {
+    	type: mongoose.ObjectId,
+    	ref: 'users'
   },
   content: {
   	type: String,

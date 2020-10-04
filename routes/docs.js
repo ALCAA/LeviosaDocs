@@ -10,13 +10,20 @@ const docs = require('../models/Document')
 router.post('/create', (req, res) => {
   const newdocs = new Document({
     name: req.body.name,
-    creator_mail: req.body.creator_mail,
+    creator: req.body.creator,
     content: req.body.content
   })
   newdocs
     .save()
-    .then(user => res.json(user))
+    .then(docs => res.json(docs))
     .catch(err => console.log(err))
 })
+
+router.post('/delete', (req, res) => {
+	return docs.deleteOne(req.body)
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
+})
+
 
 module.exports = router
