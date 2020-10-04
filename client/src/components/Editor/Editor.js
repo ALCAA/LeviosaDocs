@@ -22,6 +22,7 @@ class Editor extends Component {
 
   // asynchronous so can't send this.state.text (or there is a character missing)
   handleSendingToSocket () {
+    var div = document.createElement('div')
     var doc = document.getElementById('div-editor').innerHTML
     socket.send(doc)
   }
@@ -43,6 +44,7 @@ class Editor extends Component {
             contentEditable='true'
             spellCheck="true"
             onInput={this.handleSendingToSocket}>
+            <div><br/></div>
           </div>
         </div>
       </div>
