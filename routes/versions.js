@@ -11,7 +11,6 @@ const docs = require('../models/Document')
 router.post('/create', (req, res) => {
 	const newversion = new Version({
 		document_id : req.body.document_id,
-		name: req.body.name,
 		content: req.body.content,
 	})
 	newversion
@@ -26,7 +25,6 @@ router.post('/create', (req, res) => {
 router.post('/create_with_tag', (req, res) => {
 	const newversion = new Version({
 		document_id : req.body.document_id,
-		name: req.body.name,
 		content: req.body.content,
 		tag: req.body.tag
 	})
