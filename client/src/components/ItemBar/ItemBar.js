@@ -23,26 +23,19 @@ const useStyles = (theme) => ({
     },
 })
 
-function getDataUrl(img) {
-
-    const canvas = document.getElementById('myfile');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.width = img.width;
-    canvas.height = img.height;
-    
-    ctx.drawImage(img, 0, 0);
-    return canvas.toDataURL('image/jpeg');
- }
- 
- const img = document.querySelector('myfile');
- if(img)
- {
- img.addEventListener('load', function (event) {
-    const dataUrl = getDataUrl(event.currentTarget);
-    console.log(dataUrl);
- });
-}
+function toDataURL(url, callback) {
+    var req = new XMLHttpRequest();
+    req.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(req.response);
+    };
+    req.open('GET', url);
+    req.responseType = 'blob';
+    req.send();
+  }
 
  class ItemBar extends React.Component {
      constructor(props) {
@@ -194,7 +187,7 @@ function getDataUrl(img) {
                             
                     </input>
                     <Button  id="image-btn"                       
-                            onClick={() => getDataUrl(document.getElementById('myfile'))} startIcon={<ImageIcon/>}
+                            onClick={() => document.execCommand('insertimage',0,toDataURL(document.getElementById('myfile'), function(dataUrl){console.log('Result: ' , dataUrl)}))} startIcon={<ImageIcon/>}
                     />  
                     
                 </div>
