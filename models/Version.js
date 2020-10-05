@@ -7,10 +7,6 @@ const VersionSchema = new Schema({
     type: mongoose.ObjectId,
     ref: 'document'
   },
-  name: {
-    type: String,
-    required: true
-  },
   content: {
     type: String,
     required: true
