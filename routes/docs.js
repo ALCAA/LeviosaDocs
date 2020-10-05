@@ -77,10 +77,10 @@ router.post('/add_user', (req, res) =>
 	})
 })
 
-// @route POST docs/show
+// @route POST docs/show_iscreator
 // @desc Show documents own by an user
 // @access Public
-router.post('/show', (req, res) => 
+router.post('/show_iscreator', (req, res) => 
 {
 	docs
 		.find({ creator: { $in: req.body.user } })
@@ -88,6 +88,16 @@ router.post('/show', (req, res) =>
 		.catch(err => console.log(err))
 })
 
+// @route POST docs/show_iscollaborator
+// @desc Show documents where the user has been added
+// @access Public
+router.post('/show_iscollaborator', (req, res) => 
+{
+	docs
+		.find({ list_users: { $in: req.body.user } })
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
+})
 
 
 module.exports = router
