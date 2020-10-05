@@ -94,7 +94,7 @@ function toDataURL(url, callback) {
                             onClick={() => (document.execCommand('insertUnorderedList'))} startIcon={<FormatListBulletedIcon />}
                     />
                     <Button id="justify-btn"
-                            onClick={() => (document.execCommand('justifyFull'))} startIcon={<FormatAlignJustifyIcon />}
+                            onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FormatAlignJustifyIcon />}
                     />
                     <Button id="img-btn" startIcon={<CloudUploadIcon />}/>
                     <Button  id="image-btn"                       

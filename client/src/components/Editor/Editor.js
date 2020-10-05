@@ -43,6 +43,7 @@ class Editor extends Component {
             contentEditable='true'
             spellCheck="true"
             onInput={this.handleSendingToSocket}>
+            <div><br/></div>
           </div>
         </div>
       </div>
