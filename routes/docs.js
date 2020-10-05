@@ -3,6 +3,7 @@ const router = express.Router()
 
 // Load Document model
 const docs = require('../models/Document')
+const User = require('../models/User')
 
 // @route POST docs/create
 // @desc Create document
@@ -56,16 +57,24 @@ router.post('/save', (req, res) =>
 // @access Public
 router.post('/add_user', (req, res) =>
 {
-	docs
-		.updateOne(
-			{
-				"_id": req.body._id
-			},
-			{
-				$push: {list_users : req.body.user_id }
-			})
-		.then(docs => res.json(docs))
-		.catch(err => console.log(err))
+	// Check if the given mail adress owns to an user
+	User.findOne({ email: req.body.email }).then(user => {
+    	if (!user) {
+    		return res.status(400).json({ email: 'No user got this email' })
+  		}
+  		else {
+		docs
+			.updateOne(
+				{
+					"_id": req.body._id
+				},
+				{
+					$push: {list_users : user._id }
+				})
+			.then(docs => res.status(200).json(docs))
+			.catch(err => res.status(400).json(err))
+		}
+	})
 })
 
 // @route POST docs/show
