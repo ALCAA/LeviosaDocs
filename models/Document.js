@@ -10,15 +10,19 @@ const DocumentSchema = new Schema({
 	creator: {
     	type: mongoose.ObjectId,
     	ref: 'users'
-  },
-  content: {
-  	type: String,
-  	default: ''
-  },
-  date_modif: {
-  	type: Date,
-  	default: Date.now
-  }
+  	},
+  	content: {
+  		type: String,
+  		default: ''
+  	},
+  	date_modif: {
+  		type: Date,
+  		default: Date.now
+  	},
+  	list_users: [{
+  		type: mongoose.ObjectId,
+  		ref: 'users'
+  	}]
 })
 
 module.exports = Document = mongoose.model('document', DocumentSchema)

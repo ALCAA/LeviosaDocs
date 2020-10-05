@@ -24,7 +24,10 @@ router.post('/create', (req, res) => {
 // @access Public
 router.post('/delete', (req, res) => {
 	docs
-		.deleteOne(req.body)
+		.deleteOne(
+			{
+				"_id": req.body._id
+			})
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
 })
@@ -35,13 +38,38 @@ router.post('/delete', (req, res) => {
 router.post('/save', (req, res) => 
 {
 	docs
-		.updateOne(req.body)
+		.updateOne(
+			{
+				"_id": req.body._id
+			},
+			{
+				"name": req.body.name,
+				"content": req.body.content,
+				"date_modif": Date.now()
+			})
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
+})
+
+// @route POST docs/add_user
+// @desc Add an user to a document
+// @access Public
+router.post('/add_user', (req, res) =>
+{
+	docs
+		.updateOne(
+			{
+				"_id": req.body._id
+			},
+			{
+				$push: {list_users : req.body.user_id }
+			})
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
 })
 
 // @route POST docs/show
-// @desc Show documents owns by a user
+// @desc Show documents own by an user
 // @access Public
 router.post('/show', (req, res) => 
 {
@@ -50,6 +78,7 @@ router.post('/show', (req, res) =>
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
 })
+
 
 
 module.exports = router
