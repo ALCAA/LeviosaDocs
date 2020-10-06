@@ -9,7 +9,7 @@ import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ImageIcon from '@material-ui/icons/Image';
-import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 
@@ -32,11 +32,6 @@ const useStyles = (theme) => ({
              fontSize: 4
          }
      }
-     /*
-     formatDoc = (cmd) => {
-         document.execCommand(cmd, false, "");
-     }
-     */
 
      toggleImage = (photo) => {
          document.execCommand('image', false, photo);
@@ -46,18 +41,15 @@ const useStyles = (theme) => ({
          this.setState( {color: event.target.value} );
      }
 
-     handleSelectNameChange = (event, fontName) => {
-         console.log(event.target.value)
+     handleSelectNameChange = (event) => {
          this.setState( {fontName: event.target.value} );
-         document.execCommand('fontName', false, fontName)
-
      }
 
     render () {
         const { classes } = this.props
         return(
             <div id="items-bar">
-                <div id="items-bar-1" >
+                <div id="items-bar-1">
                     <Button id="bold-btn"
                             onClick={() => (document.execCommand('bold'))}><b>B</b>
                     </Button>
@@ -80,7 +72,7 @@ const useStyles = (theme) => ({
                             onClick={() => (document.execCommand('insertUnorderedList'))} startIcon={<FormatListBulletedIcon />}
                     />
                     <Button id="justify-btn"
-                            onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FormatAlignJustifyIcon />}
+                            onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FilterListIcon />}
                     />
                     <Button id="img-btn" startIcon={<CloudUploadIcon />}/>
                     <Button id="image-btn"
