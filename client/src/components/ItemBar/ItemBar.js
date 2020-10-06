@@ -23,6 +23,20 @@ const useStyles = (theme) => ({
     },
 })
 
+function toDataURL(url, callback) {
+    var req = new XMLHttpRequest();
+    req.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        callback(reader.result);
+      }
+      reader.readAsDataURL(req.response);
+    };
+    req.open('GET', url);
+    req.responseType = 'blob';
+    req.send();
+  }
+
  class ItemBar extends React.Component {
      constructor(props) {
          super(props);
@@ -75,9 +89,10 @@ const useStyles = (theme) => ({
                             onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FilterListIcon />}
                     />
                     <Button id="img-btn" startIcon={<CloudUploadIcon />}/>
-                    <Button id="image-btn"
+                    <Button  id="image-btn"                       
                             onClick={() => (document.execCommand('insertimage', 0, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
                     />
+
                 </div>
                 <div id="items-bar-2">
                     <FormControl className={classes.formControl}>
@@ -158,6 +173,15 @@ const useStyles = (theme) => ({
                             }
                         }
                     } startIcon={<AddIcon />}/>
+                    <input type="file"
+                        id="myfile" name="myfile"
+                        accept="image/">
+                            
+                    </input>
+                    <Button  id="image-btn"                       
+                            onClick={() => document.execCommand('insertimage',0,toDataURL(document.getElementById('myfile'), function(dataUrl){console.log('Result: ' , dataUrl)}))} startIcon={<ImageIcon/>}
+                    />  
+                    
                 </div>
                 <div id="items-bar-3">
                 </div>
