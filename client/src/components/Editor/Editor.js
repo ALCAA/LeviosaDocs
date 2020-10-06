@@ -38,7 +38,7 @@ class Editor extends Component {
     return (
       <div>
         <div>
-          <div
+          <div suppressContentEditableWarning={true}
             id='div-editor'
             contentEditable='true'
             spellCheck="true"
