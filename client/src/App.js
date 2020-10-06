@@ -43,7 +43,7 @@ function App () {
         		<Route exact path='/login' component={Login} />
         		<Route exact path='/signup' component={Signup} />
             <PrivateRoute path='/dashboard' component={Dashboard} />
-        		<PrivateRoute path='/documents' component={Documents} />
+        		<PrivateRoute path='/:id/edit' component={Documents} />
       		</Switch>
     	</Router>
     </Provider>
