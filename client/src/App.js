@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Documents from './pages/Documents'
+import Dashboard from './pages/Dashboard'
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -38,9 +39,10 @@ function App () {
   	<Provider store={store}>
     	<Router>
       		<Switch>
-      		    <Route exact path='/' render={() => <Redirect to='/login' />} />
+      		  <Route exact path='/' render={() => <Redirect to='/login' />} />
         		<Route exact path='/login' component={Login} />
         		<Route exact path='/signup' component={Signup} />
+            <PrivateRoute path='/dashboard' component={Dashboard} />
         		<PrivateRoute path='/documents' component={Documents} />
       		</Switch>
     	</Router>
