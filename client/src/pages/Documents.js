@@ -2,6 +2,7 @@ import React from 'react'
 import TopBar from '../components/TopBar/TopBar'
 import ItemBar from '../components/ItemBar/ItemBar'
 import Editor from '../components/Editor/Editor'
+import UserBubble from '../components/UserBubble/UserBubble'
 import '../App.css'
 
 class Documents extends React.Component {
@@ -14,6 +15,7 @@ class Documents extends React.Component {
         </header>
         <div className='App-body'>
           <Editor />
+          <UserBubble/>
         </div>
       </div>
     )
