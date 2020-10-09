@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { Link } from 'react-router-dom'
+import DocPopup from '../components/DocPopup/DocPopup'
 import '../App.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,7 @@ class Login extends React.Component {
     super()
 
     this.state = {
-      username: ''
+      username: '', 
     }
   }
 
@@ -43,15 +43,7 @@ class Login extends React.Component {
                 onChange={(e) => { this.setState({ username: e.target.value }) }}
                 required
               />
-              <Link to={{
-                pathname: '/documents',
-                username: this.state.username
-              }}
-              >
-                <Button id='submit-login' variant='contained' color='primary' className={classes.submit}>
-                                    Continuer
-                </Button>
-              </Link>
+              <DocPopup username={this.state.username}/>
             </div>
           </form>
         </div>
