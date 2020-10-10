@@ -4,22 +4,13 @@ import { create_docs } from '../actions/docs';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Button from '@material-ui/core/Button';
+import DocPopup from '../components/DocPopup/DocPopup'
 
 class Logged extends Component {
     onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser();
   };
-
-  create_docs = e => {
-    const { user } = this.props.auth;
-    const docsData = {
-      name: 'test',
-      creator : user.id,
-      content: ''
-    }
-    this.props.create_docs(docsData);
-  }
 
   render () {
     const { user } = this.props.auth;
@@ -29,9 +20,10 @@ class Logged extends Component {
         <div className='App-body-dash'>
           <h1>Glad to see you {user.firstname} !</h1>
           <div className='login-items'>
-            <Button id='create_docs' variant='contained' color='primary' onClick={this.create_docs}>
+            <Button id='create_docs' variant='contained' color='primary'>
               Create new document
             </Button>
+            <DocPopup msg="Create new document" title="Choose document name" label="Name"/>
             <div>
               <Button id='logout' variant='contained' color='secondary' onClick={this.onLogoutClick}>
                 Logout
