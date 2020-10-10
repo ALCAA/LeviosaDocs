@@ -33,9 +33,9 @@ class Signup extends React.Component {
 
   render () {
     return (
-      <div className='Login'>
+      <div className='Signup'>
         <header className='App-header' />
-        <div className='App-body'>
+        <div className='App-body-signup'>
           <h1>Sign up page</h1>
           <form autoComplete='off' noValidate>
             <div className='login-items'>

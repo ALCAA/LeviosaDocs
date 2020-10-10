@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../actions/login';
 import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
 import DocPopup from '../components/DocPopup/DocPopup'
+import Button from '@material-ui/core/Button';
 import '../App.css'
 
 
@@ -53,7 +53,7 @@ class Login extends React.Component {
     return (
       <div className='Login'>
         <header className='App-header' />
-        <div className='App-body'>
+        <div className='App-body-login'>
           <h1>Welcome to LeviosaDocs</h1>
           <form autoComplete='off' noValidate>
             <div className='login-items'>

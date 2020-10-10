@@ -2,7 +2,7 @@
   background-color:dimgrey;
 }
 
-.Login {
+.Login, .Signup, .Dashboard {
   text-align: center;
   margin-top: 10%;
 }
@@ -30,7 +30,7 @@
   }
 }
 
-.App-header, .App-body {
+.App-header, .App-body-doc {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +38,7 @@
   background-color: antiquewhite;
 }
 
-.App-body {
+.App-body-doc {
   display: flex;
   flex-direction: row;
   margin: 200px auto;

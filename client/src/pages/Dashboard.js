@@ -3,7 +3,7 @@ import { logoutUser } from "../actions/login";
 import { create_docs } from '../actions/docs';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 class Logged extends Component {
     onLogoutClick = e => {
@@ -24,9 +24,9 @@ class Logged extends Component {
   render () {
     const { user } = this.props.auth;
     return (
-  	 <div className='Login'>
+  	 <div className='Dashboard'>
        <header className='App-header' />
-        <div className='App-body'>
+        <div className='App-body-dash'>
           <h1>Glad to see you {user.firstname} !</h1>
           <div className='login-items'>
             <Button id='create_docs' variant='contained' color='primary' onClick={this.create_docs}>

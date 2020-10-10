@@ -13,7 +13,7 @@ class Documents extends React.Component {
           <TopBar username={this.props.location.username} doctitle={this.props.location.doctitle} />
           <ItemBar />
         </header>
-        <div className='App-body'>
+        <div className='App-body-doc'>
           <Editor />
           <UserBubble/>
         </div>
