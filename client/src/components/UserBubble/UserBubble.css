@@ -1,0 +1,30 @@
+.users-div {
+	margin: 0px 25px;
+}
+
+h2 {
+	margin: 0px;
+	color: ;
+}
+
+.usersroles {
+  margin: 20px 0;
+  display: flex;
+}
+
+.userinfo {
+	width: 40px;
+	height: 40px;
+	display: -webkit-flex;
+	display: flex;
+	border-radius: 50%;
+	margin-right: 10px;
+	background: #FFF;
+}
+
+.accountavatar {
+	height: 64px;
+	width: 64px;
+	border-radius: 50%;
+	overflow: hidden;
+}

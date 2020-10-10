@@ -62,9 +62,9 @@ io.on('connection', (socket) => {
     socket.on('message', (evt) => {
         socket.broadcast.emit('message', evt);
     });
-})
-io.on('disconnect', (evt) => {
-    console.log('some people left');
+    socket.on('disconnect', () => {
+      console.log('some people left');
+    })
 })
 
 server.listen(port, () => console.log(`server listening on port: ${port}`));

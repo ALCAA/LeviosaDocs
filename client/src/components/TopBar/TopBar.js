@@ -28,7 +28,7 @@ class TopBar extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant='h6' className={classes.title}>
-                                Documents - PMS
+                                {this.props.doctitle}
               </Typography>
               <Button color='inherit'>{this.props.username}</Button>
             </Toolbar>
