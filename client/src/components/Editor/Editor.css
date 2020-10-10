@@ -5,7 +5,7 @@
 
 	width: 600px;
 	height: 750px;
-	//min-height: 50px;  /* if you want Flexible textarea/div then give min-height instead of height */
+	min-height: 50px;  /* if you want Flexible textarea/div then give min-height instead of height */
 	overflow: auto;
 	padding: 2px;
 	resize: both;

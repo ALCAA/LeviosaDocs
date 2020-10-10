@@ -10,6 +10,7 @@ import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ImageIcon from '@material-ui/icons/Image';
+import FullScreenIcon from '@material-ui/icons/Fullscreen';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
@@ -39,15 +40,7 @@ const useStyles = (theme) => ({
     },
 })
 
-function toDataURL() {
-    var image = document.getElementById("myfile").files[0];
-    var req = new XMLHttpRequest();
-    var form = new FormData();
 
-    form.append("image", image);
-    req.open("POST", 'tmp');
-    req.send(form);
-  }
 
  class ItemBar extends React.Component {
      constructor(props) {
@@ -55,9 +48,27 @@ function toDataURL() {
          this.state = {
              color: "black",
              fontName: "arial",
-             fontSize: 4
+             fontSize: 4,
+             url:"",
+             width:0,
+             height:0
          }
      }
+
+      handleCapture = ( target ) => {
+      
+        if(target.files[0] !== null &&  target.files[0] !== undefined)
+        {
+            var fReader = new FileReader();
+            fReader.readAsDataURL(target.files[0]);
+            fReader.onloadend = (event) => 
+            {
+                if (event) {
+                    this.setState({url:event?.target?.result});
+                }
+            }
+        }
+      }
 
      toggleImage = (photo) => {
          document.execCommand('image', false, photo);
@@ -103,7 +114,10 @@ function toDataURL() {
                                     onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FilterListIcon />}
                             />
                             <Button  id="image-btn"                     
-                                    onClick={() => (document.execCommand('insertimage', 0, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
+                                    onClick={() =>  (document.execCommand('insertimage', 0, this.state.url))} startIcon={<ImageIcon/>}
+                            />
+                            <Button  id="resize-btn"                     
+                                    onClick={() =>  (document.execCommand('insertimage', 0, this.state.url))} startIcon={<FullScreenIcon/>}
                             />
 
                         </div>
@@ -187,13 +201,16 @@ function toDataURL() {
                                 }
                             } startIcon={<AddIcon />}/>
                             <input type="file"
-                                id="myfile" name="myfile"
-                                accept="image/">
-                                    
-                            </input>
-                            <Button  id="image-btn"                       
-                                    onClick={() => document.execCommand('insertimage',0,toDataURL(document.getElementById('myfile'), function(dataUrl){console.log('Result: ' , dataUrl)}))} startIcon={<ImageIcon/>}
-                            />  
+                                id="myfile" 
+                                name="myfile"
+                                accept="image/"
+                                onChange={() => {
+                                    if ("myfile" !== null && "myfile" !== undefined)
+                                    {
+                                        this.handleCapture(document.getElementById('myfile'))
+                                    }
+                                } }
+                            />       
                         </div>        
                     </Grid>
                     <Grid item xs={3}>
