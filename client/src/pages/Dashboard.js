@@ -48,11 +48,13 @@ Logged.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   create_docs: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  doc: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors,
+  doc: state.doc,
+  errors: state.errors
 });
 
 export default connect(
