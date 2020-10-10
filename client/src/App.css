@@ -34,6 +34,12 @@
   background-color: antiquewhite;
 }
 
+.App-body {
+  display: flex;
+  flex-direction: row;
+  margin: 200px auto;
+}
+
 .App-header {
   position: fixed;
   width: 100%;
