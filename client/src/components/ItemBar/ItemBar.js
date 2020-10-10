@@ -23,18 +23,14 @@ const useStyles = (theme) => ({
     },
 })
 
-function toDataURL(url, callback) {
+function toDataURL() {
+    var image = document.getElementById("myfile").files[0];
     var req = new XMLHttpRequest();
-    req.onload = function() {
-      var reader = new FileReader();
-      reader.onloadend = function() {
-        callback(reader.result);
-      }
-      reader.readAsDataURL(req.response);
-    };
-    req.open('GET', url);
-    req.responseType = 'blob';
-    req.send();
+    var form = new FormData();
+
+    form.append("image", image);
+    req.open("POST", 'tmp');
+    req.send(form);
   }
 
  class ItemBar extends React.Component {
