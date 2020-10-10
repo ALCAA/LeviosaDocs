@@ -77,6 +77,14 @@ router.post('/add_user', (req, res) =>
 	})
 })
 
+router.post('/get_info', (req, res) => 
+{
+	docs
+		.find({ _id: { $in: req.body.id } })
+		.then(docs => res.json(docs))
+		.catch(err => console.log(err))
+})
+
 // @route POST docs/show_iscreator
 // @desc Show documents own by an user
 // @access Public
