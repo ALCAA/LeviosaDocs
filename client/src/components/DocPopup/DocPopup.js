@@ -8,7 +8,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { logoutUser } from "../../actions/login";
 import { create_docs } from '../../actions/docs';
+import { add_user } from '../../actions/docs';
 
 
 class DocPopup extends Component {
@@ -16,9 +18,25 @@ class DocPopup extends Component {
     super(props)
 
     this.state = {
-      open: false, 
-      doctitle: ''
+      open: true, 
+      doctitle: '',
+      newEmail: '',
     }
+  }
+
+  add_user = e => {
+    let id = window.location.pathname;
+    id = id.substring(1, id.length)
+    id = id.substring(0, id.length - 5)
+    const body = {
+      email: this.state.newEmail,
+      id: id
+    }
+    this.props.add_user(body);
+  }
+
+  onNameChange = (evt) => {
+    this.props.onNameChange(this.state.doctitle)
   }
 
   handleClickOpen = () => {
@@ -29,54 +47,67 @@ class DocPopup extends Component {
     this.setState({open: false})
   };
 
-  create_docs = e => {
-    const { user } = this.props.auth;
-    const docsData = {
-      name: this.state.doctitle,
-      creator : user.id,
-      content: ''
-    }
-    this.props.create_docs(docsData);
-  }
-
-  handleTitle = () => {
-    this.setState({open: false})
-  }
-
   render () {
     const msg = this.props.msg
     const title = this.props.title
     const label = this.props.label
+    const validate = this.props.validate
+    const usage = this.props.usage
     
     return (
       <div style={{margin:'10px'}}>
-        <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
-          {msg}
-        </Button>
-        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{title}</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="title"
-              label={label}
-              type="text"
-              value={this.state.doctitle}
-              onChange={(e) => { this.setState({ doctitle: e.target.value }) }}
-              required
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button variant="contained" color="primary" onClick={this.handleClose} >
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={this.handleTitle && this.create_docs} >
-              Create
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {usage === "document" &&
+            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="title"
+                  label={label}
+                  type="text"
+                  value={this.state.doctitle}
+                  onChange={(e) => { this.setState({ doctitle: e.target.value }) }}
+                  required
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button variant="contained" color="primary" onClick={this.handleClose} >
+                  Cancel
+                </Button>
+                <Button variant="contained" color="primary" onClick={this.handleClose && this.onNameChange} >
+                  {msg}
+                </Button>
+              </DialogActions>
+            </Dialog>
+          }
+          {usage === "email" && 
+            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="title"
+                  label={label}
+                  type="text"
+                  value={this.state.newEmail}
+                  onChange={(e) => { this.setState({ newEmail: e.target.value }) }}
+                  required
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button variant="contained" color="primary" onClick={this.handleClose} >
+                  Cancel
+                </Button>
+                <Button variant="contained" color="primary" onClick={this.handleClose && this.add_user}>
+                  {msg}
+                </Button>
+              </DialogActions>
+            </Dialog>
+          }
       </div>
     );
   }
@@ -84,6 +115,7 @@ class DocPopup extends Component {
 
 DocPopup.propTypes = {
   create_docs: PropTypes.func.isRequired,
+  add_user: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   doc: PropTypes.object.isRequired,
 };
@@ -97,6 +129,8 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    create_docs
+    logoutUser,
+    create_docs,
+    add_user
   }
 )(DocPopup)

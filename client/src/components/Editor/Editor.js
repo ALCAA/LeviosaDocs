@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import './Editor.css'
-import '../ItemBar/ItemBar.css'
 import socketIOClient from 'socket.io-client'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/login";
-import { load_docs, save_doc } from '../../actions/docs';
+import { load_docs, save_doc, add_user } from '../../actions/docs';
+import UserBubble from '../UserBubble/UserBubble'
+import TopBar from '../TopBar/TopBar'
+import ItemBar from '../ItemBar/ItemBar'
 
 // construct socket
-const socket = socketIOClient('http://localhost:8000')
+const socket = socketIOClient('http://localhost:8000');
+
 
 class Editor extends Component {
   constructor (props) {
@@ -19,7 +22,8 @@ class Editor extends Component {
       name: '',
       creator: '',
       text: '',
-      list_users: [{}]
+      list_users: [],
+      input_mail: []
     }
     this.setTextFromSocket()
     this.handleSendingToSocket = this.handleSendingToSocket.bind(this)
@@ -32,17 +36,8 @@ class Editor extends Component {
     const body = {
       id: id
     }
+    this.setState({document_id: id});
     this.props.load_docs(body);
-  }
-
- save_doc = e => {
-    e.preventDefault();
-    const SavedData = {
-      _id: this.props.doc._id,
-      name: '/TODO',
-      content: '/TODO'
-    }
-    this.props.save_doc(SavedData);
   }
 
   // after event of typing in textbox, set text with the new value
@@ -59,22 +54,81 @@ class Editor extends Component {
     socket.on('message', (data) => {
       document.getElementById('div-editor').innerHTML = data
       this.setState({ text: data })
+      this.save_doc()
     })
   }
 
+  handleAddEmail = (newCollab) => {
+    this.state.input_mail.push(newCollab);
+    console.log(this.state.input_mail)
+    if(this.add_user() !== undefined) {
+      this.state.list_users.push(newCollab);
+    }
+    console.log(this.state.list_users)
+  }
+
+  add_user = e => {
+    var length = this.state.input_mail.length
+    console.log(length)
+    let id = window.location.pathname;
+      id = id.substring(1, id.length)
+      id = id.substring(0, id.length - 5)
+      const body = {
+        email: this.state.input_mail[length-1],
+        id: id,
+      }
+      this.props.add_user(body);
+  }
+
+ save_doc = e => {
+    console.log(this.props.doc._id);
+    const SavedData = {
+      _id: this.state.document_id,
+      name: this.props.doc.name,
+      content: this.state.text
+    }
+    this.props.save_doc(SavedData);
+  }
+
+  
+
+    stripHtml = (html) => {
+        // Create a new div element
+        const temporalDivElement = document.createElement("div");
+        // Set the HTML content with the providen
+        temporalDivElement.innerHTML = html;
+        // Retrieve the text property of the element (cross-browser support)
+        return temporalDivElement.innerText
+    }
+
+    
+
   render () {
-    console.log(this.props.auth.user);
-    console.log(this.props.doc)
+    const { user } = this.props.auth;
+    console.log(this.props.auth);
+    const completeName = user.firstname + ' ' + user.name;
+    console.log(this.props.doc);
+
     return (
-      <div>
-        <div>
+      <div className='App'>
+        <header className='App-header'>
+          <TopBar completeName={completeName} docName={this.props.doc.name} />
+          <ItemBar onAddEmail={this.handleAddEmail}/>
+        </header>
+        <div className='App-body-doc'>
           <div suppressContentEditableWarning={true}
-            id='div-editor'
-            contentEditable='true'
-            spellCheck="true"
-            onInput={this.handleSendingToSocket}>
-            <div>{this.props.doc.creator}<br/></div>
+          id='div-editor'
+          contentEditable='true'
+          spellCheck="true"
+          ref={this.myRef}
+          onInput={this.handleSendingToSocket}>
+            <div>
+              {this.props.doc.name}<br/>
+              {this.stripHtml(this.props.doc.content)}
+              {this.props.doc.list_users}
+            </div>
           </div>
+          <UserBubble doc={this.doc}/>
         </div>
       </div>
     )
@@ -83,7 +137,8 @@ class Editor extends Component {
 
 Editor.propTypes = {
   auth: PropTypes.object.isRequired,
-  doc: PropTypes.object.isRequired
+  doc: PropTypes.object.isRequired,
+  add_user: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -95,6 +150,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
+    add_user,
     logoutUser,
     load_docs,
     save_doc

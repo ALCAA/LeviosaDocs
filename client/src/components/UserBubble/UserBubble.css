@@ -1,5 +1,9 @@
-.users-div {
+.users {
 	margin: 0px 25px;
+}
+
+.users-div, .creator-div {
+	margin: 0px 0px 50px 0px
 }
 
 h2 {
@@ -7,7 +11,7 @@ h2 {
 	color: ;
 }
 
-.usersroles {
+.usersicons	 {
   margin: 20px 0;
   display: flex;
 }

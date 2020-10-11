@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const users = [
   {firstname : 'Harry', name: 'Potter', email: 'harry@grifondor.express'},
@@ -25,73 +24,64 @@ const useStyles = makeStyles({
   },
 });
 
-function SimpleDialog(props) {
-  const classes = useStyles();
-  const { onClose, selectedValue, open } = props;
+export default class CollabList extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      newEmail: '',
+      open: false,
+      selectedValue: users[0].email,
+    }
+  }
 
-  const handleClose = () => {
-    onClose(selectedValue);
+  setOpen = (arg) => {
+    this.setState({open: arg})
+  }
+
+  setSelectedValue = (value) => {
+    this.setState({selectedValue: value})
+  }
+
+  handleClickOpen = () => {
+    this.setOpen(true);
   };
 
-  const handleListItemClick = (value) => {
-    onClose(value);
+  handleClose = (value) => {
+    this.setOpen(false);
+    this.setSelectedValue(value);
   };
 
-  return (
-    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
-      <List>
-        {users.map((user) => (
-          <ListItem button onClick={() => handleListItemClick(user.email)} key={user.email}>
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <PersonIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={user.email} />
-          </ListItem>
-        ))}
-
-        <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-          <ListItemAvatar>
-            <Avatar>
-              <AddIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Add account" />
-        </ListItem>
-      </List>
-    </Dialog>
-  );
-}
-
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
-export default function SimpleDialogDemo() {
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(users[0].email);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
-  };
-
-  return (
-    <div>
-      <Typography variant="subtitle1">{selectedValue}</Typography>
-      <br />
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open simple dialog
+  render () {
+    return (
+    <div style={{margin:'10px'}}>
+      <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        Invite people
       </Button>
-      <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
+      <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Invite with email</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="title"
+            label="Email"
+            type="text"
+            value={this.state.newEmail}
+            onChange={(e) => { this.setState({ newEmail: e.target.value }) }}
+            required
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="primary" onClick={this.handleClose} >
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.handleClose}>
+            Send invitation
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
+  }
 }

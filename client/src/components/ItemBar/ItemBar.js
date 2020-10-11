@@ -3,7 +3,6 @@ import './ItemBar.css'
 import PropTypes from "prop-types";
 import { withStyles } from '@material-ui/core/styles'
 import { Button, FormControl, Select, InputLabel, MenuItem, TextField } from '@material-ui/core/';
-import CollabList from '../CollabList/CollabList'
 import Grid from '@material-ui/core/Grid';
 import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
@@ -13,6 +12,14 @@ import ImageIcon from '@material-ui/icons/Image';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import { blue } from '@material-ui/core/colors';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { add_user } from "../../actions/docs";
+import { logoutUser } from "../../actions/login";
+import { connect } from "react-redux";
 
 const useStyles = (theme) => ({
     formControl: {
@@ -37,6 +44,10 @@ const useStyles = (theme) => ({
     divider: {
         margin: theme.spacing(2, 0),
     },
+    avatar: {
+        backgroundColor: blue[100],
+        color: blue[600],
+    },
 })
 
 function toDataURL() {
@@ -55,7 +66,9 @@ function toDataURL() {
          this.state = {
              color: "black",
              fontName: "arial",
-             fontSize: 4
+             fontSize: 5,
+             newEmail: '',
+             open: false,
          }
      }
 
@@ -70,6 +83,26 @@ function toDataURL() {
      handleSelectNameChange = (event) => {
          this.setState( {fontName: event.target.value} );
      }
+
+     setOpen = (arg) => {
+        this.setState({open: arg})
+     }
+
+    handleClickOpen = () => {
+      this.setOpen(true);
+    }
+
+    handleClose = () => {
+      this.setOpen(false);
+      this.setState({newEmail: ''});
+    }
+
+    handleAddEmail = () => {
+        if (this.props.onAddEmail){
+            this.props.onAddEmail(this.state.newEmail)
+        }
+        this.handleClose()
+    }
 
     render () {
         const { classes } = this.props
@@ -107,6 +140,7 @@ function toDataURL() {
                             />
 
                         </div>
+
                         <div id="items-bar-2">
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="select-font-color">Font color</InputLabel>
@@ -186,6 +220,7 @@ function toDataURL() {
                                     }
                                 }
                             } startIcon={<AddIcon />}/>
+
                             <input type="file"
                                 id="myfile" name="myfile"
                                 accept="image/">
@@ -196,8 +231,36 @@ function toDataURL() {
                             />  
                         </div>        
                     </Grid>
-                    <Grid item xs={3}>
-                        <CollabList/>
+                    <Grid item xs={2}>
+                        <div style={{margin:'10px'}}>
+                          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+                            Invite people
+                          </Button>
+                          <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">Invite with email</DialogTitle>
+                            <DialogContent>
+                              <TextField
+                                autoFocus
+                                margin="dense"
+                                id="title"
+                                label="Email"
+                                type="text"
+                                value={this.state.newEmail}
+                                onChange={(e) => { this.setState({ newEmail: e.target.value }) }}
+                                required
+                                fullWidth
+                              />
+                            </DialogContent>
+                            <DialogActions>
+                              <Button variant="contained" color="secondary" onClick={this.handleClose} >
+                                Cancel
+                              </Button>
+                              <Button variant="contained" color="primary" onClick={this.handleAddEmail}>
+                                Give access
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
                     </Grid>
                 </Grid>
             </div>
@@ -206,7 +269,19 @@ function toDataURL() {
  }
 
 ItemBar.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    add_user: PropTypes.func.isRequired,
 }
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
 
- export default withStyles(useStyles)(ItemBar)
+export default connect(
+  mapStateToProps,
+  {
+    logoutUser,
+    add_user,
+  }
+) (withStyles(useStyles)(ItemBar))
+

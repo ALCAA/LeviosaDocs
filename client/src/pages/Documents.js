@@ -16,17 +16,9 @@ class Documents extends React.Component {
 
   render () {
     const { user } = this.props.auth;
-    const completeName = user.firstname + ' ' + user.name;
-    return (
+        return (
       <div className='App'>
-        <header className='App-header'>
-          <TopBar username={completeName} doctitle={this.props.doc.name} />
-          <ItemBar />
-        </header>
-        <div className='App-body-doc'>
-          <Editor />
-          <UserBubble/>
-        </div>
+        
       </div>
     )
   }
