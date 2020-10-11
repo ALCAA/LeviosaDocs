@@ -109,7 +109,7 @@ function toDataURL() {
         return(
             <div id="items-bar">
                 <Grid container spacing={1}>
-                    <Grid item xs={9}>
+                    <Grid item xs={12}>
                         <div id="items-bar-1">
                             <Button id="bold-btn"
                                     onClick={() => (document.execCommand('bold'))}><b>B</b>
@@ -139,6 +139,33 @@ function toDataURL() {
                                     onClick={() => (document.execCommand('insertimage', 0, "https://statics.lesinrocks.com/content/thumbs/uploads/2019/12/07/1448140/width-1125-height-612-quality-10/avatar.jpg"))} startIcon={<ImageIcon/>}
                             />
 
+                            <Button variant="outlined" color="primary" size="small" onClick={this.handleClickOpen}>
+                                Invite
+                            </Button>
+                            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">Invite with email</DialogTitle>
+                                <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="title"
+                                    label="Email"
+                                    type="text"
+                                    value={this.state.newEmail}
+                                    onChange={(e) => { this.setState({ newEmail: e.target.value }) }}
+                                    required
+                                    fullWidth
+                                  />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button variant="contained" color="secondary" onClick={this.handleClose} >
+                                        Cancel
+                                    </Button>
+                                  <Button variant="contained" color="primary" onClick={this.handleAddEmail}>
+                                    Give access
+                                  </Button>
+                                </DialogActions>
+                            </Dialog>
                         </div>
 
                         <div id="items-bar-2">
@@ -192,6 +219,7 @@ function toDataURL() {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
+                            <div>
                             <Button id="sizeFontLess-btn" onClick={() => {
                                     if (this.state.fontSize >= 2) {
                                         const newSize = this.state.fontSize - 1
@@ -229,38 +257,9 @@ function toDataURL() {
                             <Button  id="image-btn"                       
                                     onClick={() => document.execCommand('insertimage',0,toDataURL(document.getElementById('myfile'), function(dataUrl){console.log('Result: ' , dataUrl)}))} startIcon={<ImageIcon/>}
                             />  
-                        </div>        
-                    </Grid>
-                    <Grid item xs={2}>
-                        <div style={{margin:'10px'}}>
-                          <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-                            Invite people
-                          </Button>
-                          <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                            <DialogTitle id="form-dialog-title">Invite with email</DialogTitle>
-                            <DialogContent>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="title"
-                                label="Email"
-                                type="text"
-                                value={this.state.newEmail}
-                                onChange={(e) => { this.setState({ newEmail: e.target.value }) }}
-                                required
-                                fullWidth
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button variant="contained" color="secondary" onClick={this.handleClose} >
-                                Cancel
-                              </Button>
-                              <Button variant="contained" color="primary" onClick={this.handleAddEmail}>
-                                Give access
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
                         </div>
+
+                        </div>        
                     </Grid>
                 </Grid>
             </div>
