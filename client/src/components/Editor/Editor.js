@@ -8,7 +8,6 @@ import { load_docs, save_doc, add_user } from '../../actions/docs';
 import UserBubble from '../UserBubble/UserBubble'
 import TopBar from '../TopBar/TopBar'
 import ItemBar from '../ItemBar/ItemBar'
-import { Resizable } from "re-resizable";
 
 // construct socket
 const socket = socketIOClient('http://localhost:8000');
@@ -19,7 +18,7 @@ class Editor extends Component {
     super(props)
 
     this.state = {
-      document_id: this.props.doc.id,
+      document_id: '',
       name: '',
       creator: '',
       text: '',
@@ -44,6 +43,7 @@ class Editor extends Component {
     }
     this.setState({document_id: id});
     this.props.load_docs(body);
+    this.setState({text: this.props.doc.content})
   }
 
   // after event of typing in textbox, set text with the new value
@@ -51,16 +51,20 @@ class Editor extends Component {
 
   // asynchronous so can't send this.state.text (or there is a character missing)
   handleSendingToSocket () {
-    var doc = document.getElementById('div-editor').innerHTML
-    socket.send(doc)
+    var id = this.state.document_id
+    var doc = document.getElementById(`div-editor-${this.state.document_id}`).innerHTML
+    const data = {'id': id,'doc': doc}
+    this.setState({text: doc})
+    socket.send(data)
+    this.save_doc()
   }
 
   // Listen on messages incoming from socket and set text with data from Socket
   setTextFromSocket () {
     socket.on('message', (data) => {
-      document.getElementById('div-editor').innerHTML = data
-      this.setState({ text: data })
-      this.save_doc()
+      if (data.id === this.state.document_id)
+        document.getElementById(`div-editor-${this.state.document_id}`).innerHTML = data.doc
+      this.setState({ text: data.doc })
     })
   }
 
@@ -121,7 +125,7 @@ class Editor extends Component {
     console.log(this.props.auth);
     const completeName = user.firstname + ' ' + user.name;
     console.log(this.props.doc);
-
+    console.log(this.state.document_id)
     return (
       <div className='App'>
         <header className='App-header'>
@@ -129,14 +133,29 @@ class Editor extends Component {
           <ItemBar onAddEmail={this.handleAddEmail} onAddFile={this.handleFile} onFileSet={this.handleFileSet} />
         </header>
         <div className='App-body-doc'>
-          <div suppressContentEditableWarning={true}
-          id='div-editor'
+          <div 
+          style={{
+            border: '1px solid gray',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '600px',
+            height: '750px',
+            //min-height: 50px;  /* if you want Flexible textarea/div then give min-height instead of height */
+            overflow: 'auto',
+            padding: '2px',
+            resize: 'both',
+
+            backgroundColor: 'white',
+            color: 'black'
+          }}
+          suppressContentEditableWarning={true}
+          id={`div-editor-${this.state.document_id}`}
           contentEditable='true'
           spellCheck="true"
           ref={this.myRef}
           onInput={this.handleSendingToSocket}>
             <div>
-              {this.stripHtml(this.props.doc.content)}
+            {this.stripHtml(this.props.doc.content)}
             </div>
           </div>
           <UserBubble list_users={this.props.doc.list_users}/>
