@@ -69,7 +69,7 @@ router.post('/add_user', (req, res) =>
 					"_id": req.body._id
 				},
 				{
-					$push: {list_users : user._id }
+					$addToSet: {list_users : user._id }
 				})
 			.then(docs => res.status(200).json(docs))
 			.catch(err => res.status(400).json(err))

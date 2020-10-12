@@ -16,9 +16,16 @@ class Documents extends React.Component {
 
   render () {
     const { user } = this.props.auth;
-        return (
+    const completeName = user.firstname + ' ' + user.name;
+    return (
       <div className='App'>
-        
+        <header className='App-header'>
+          <TopBar completeName={completeName} docName={this.props.doc.name} />
+          <ItemBar />
+        </header>
+        <div className='App-body-doc'>
+          <Editor/>
+        </div>
       </div>
     )
   }
