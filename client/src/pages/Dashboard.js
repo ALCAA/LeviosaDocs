@@ -51,6 +51,7 @@ class Logged extends Component {
     const { user } = this.props.auth;
     const data = {
       user : user.id
+      useremail : user.email
     }
     this.props.is_creator(data);
     this.props.is_collaborator(data);
