@@ -7,17 +7,27 @@ import './UserBubble.css'
 
 
 class UserBubble extends Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      creator: ''
+    } 
+  }
   render () {
+    const creator = this.props.doc.creator
     return (
       <div className="users">
         <div className="creator-div">
           <h2>Creator</h2>
           <div className="usersicons">
-            <Tooltip title={this.props.doc.creator}>
-              <span id={this.props.doc.creator} className="userinfo">
+          {creator !== undefined ?
+            <Tooltip title={creator}>
+              <span id="cretor" className="userinfo">
                 <Identicon className="accountavatar" style={{ backgroundColor: this.props.doc.randomcolor }} size={40} string={this.props.doc.creator} />
               </span>
             </Tooltip>
+            : ""
+          }
             
           </div>
         </div>
