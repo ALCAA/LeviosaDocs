@@ -20,7 +20,7 @@ const DocumentSchema = new Schema({
   		default: Date.now
   	},
   	list_users: [{
-  		type: mongoose.ObjectId,
+  		type: Schema.Types.Object,
   		ref: 'users'
   	}]
 })

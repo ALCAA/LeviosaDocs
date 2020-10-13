@@ -15,6 +15,12 @@ class UserBubble extends Component {
 
   render () {
     const creator = this.props.doc.creator
+    let test = []
+    if (this.props.list_users !== undefined)
+    {
+      this.props.list_users.forEach(elt => 
+        test.push(elt.firstname + ' ' + elt.name))
+    }
     return (
       <div className='users'>
         <div className='creator-div'>
@@ -33,19 +39,7 @@ class UserBubble extends Component {
         <div className='users-div'>
           <h2>Collaborators</h2>
           <div className='usersicons'>
-            {
-              React.Children.map(this.props.list_users, (id) => (
-                <div>
-                  <React.Fragment key={id}>
-                    <Tooltip title={id}>
-                      <span id={id} className='userinfo'>
-                        <Identicon className='accountavatar' style={{ backgroundColor: id.randomcolor }} size={40} string={id} />
-                      </span>
-                    </Tooltip>
-                  </React.Fragment>
-                </div>
-              ))
-            }
+            {test}
           </div>
         </div>
       </div>

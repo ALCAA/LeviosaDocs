@@ -12,7 +12,7 @@ router.post('/create', (req, res) => {
 	const newdocs = new Document({
 		name: req.body.name,
 		creator: req.body.creator,
-		content: req.body.content
+		content: req.body.content,
 	})
 	newdocs
 		.save()
@@ -69,7 +69,7 @@ router.post('/add_user', (req, res) =>
 					"_id": req.body._id
 				},
 				{
-					$addToSet: {list_users : user._id }
+					$addToSet: {list_users : user}
 				})
 			.then(docs => res.status(200).json(docs))
 			.catch(err => res.status(400).json(err))
@@ -83,13 +83,6 @@ router.post('/get_info', (req, res) =>
 		.find({ _id: { $in: req.body.id } })
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
-})
-
-router.post('/get_info_user', (req, res) => 
-{
-    User.findOne({ _id: req.body.id })
-        .then(user => res.json(user))
-        .catch(err => console.log(err))
 })
 
 // @route POST docs/show_iscreator

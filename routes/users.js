@@ -91,7 +91,7 @@ router.post('/login', (req, res) => {
           payload,
           keys.secretOrKey,
           {
-            expiresIn: 31556926 // 1 year in seconds
+            expiresIn: 3600 // 1 hour in seconds
           },
           (err, token) => {
             res.json({
@@ -107,6 +107,13 @@ router.post('/login', (req, res) => {
       }
     })
   })
+})
+
+router.post('/find_name', (req, res) => {
+  User
+    .findOne({ _id: req.body })
+    .then(user => res.json(user))
+    .catch(err => console.log(err))
 })
 
 module.exports = router
