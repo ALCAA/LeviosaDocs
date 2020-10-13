@@ -4,25 +4,6 @@
     flex-direction: column;
 }
 
-@media only screen 
-and (min-device-width : 700px)  {
-  .App-body-doc {
-    display: flex;
-    flex-direction: row;
-    margin: 230px auto;
-  }
-}
-
-@media only screen 
-and (min-device-width : 900px)  {
-    #items-bar-2, #items-bar-3  {
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-        align-items: center;
-    }
-}
-
 #fontSize-textField {
     text-align: center;
     width: 100px;
@@ -30,8 +11,4 @@ and (min-device-width : 900px)  {
 
 #fontSize-input {
     padding: 6px 8px
-}
-
-#bold-btn:active, #bold-btn:focus, #bold-btn:checked {
-    background-color: lightblue;
 }
