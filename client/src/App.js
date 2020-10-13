@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-import Documents from './pages/Documents'
+import Editor from './components/Editor/Editor'
 import Dashboard from './pages/Dashboard'
 
 import { Provider } from 'react-redux'
@@ -43,7 +43,7 @@ function App () {
         		<Route exact path='/login' component={Login} />
         		<Route exact path='/signup' component={Signup} />
             <PrivateRoute path='/dashboard' component={Dashboard} />
-        		<PrivateRoute path='/:id/edit' component={Documents} />
+        		<PrivateRoute path='/:id/edit' component={Editor} />
       		</Switch>
     	</Router>
     </Provider>

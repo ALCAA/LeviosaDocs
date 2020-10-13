@@ -1,10 +1,7 @@
 import React from 'react'
-import './ItemBar.css'
 import PropTypes from "prop-types";
 import { withStyles } from '@material-ui/core/styles'
-import { Button, FormControl, Select, InputLabel, MenuItem, TextField } from '@material-ui/core/';
-import CollabList from '../CollabList/CollabList'
-import Grid from '@material-ui/core/Grid';
+import { Button, FormControl, Select, InputLabel, MenuItem, TextField, Grid, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core/';
 import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
@@ -14,33 +11,22 @@ import FullScreenIcon from '@material-ui/icons/Fullscreen';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import { add_user } from "../../actions/docs";
+import { logoutUser } from "../../actions/login";
+import { connect } from "react-redux";
+import './ItemBar.css'
 
 const useStyles = (theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
     },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
     container: {
         display: 'grid',
         gridTemplateColumns: 'repeat(12, 1fr)',
         gridGap: theme.spacing(3),
     },
-    paper: {
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-        whiteSpace: 'nowrap',
-        marginBottom: theme.spacing(1),
-      },
-    divider: {
-        margin: theme.spacing(2, 0),
-    },
 })
-
-
 
  class ItemBar extends React.Component {
      constructor(props) {
@@ -48,15 +34,16 @@ const useStyles = (theme) => ({
          this.state = {
              color: "black",
              fontName: "arial",
-             fontSize: 4,
+             fontSize: 5,
+             newEmail: '',
+             open: false,
              url:"",
              width:0,
              height:0
          }
      }
 
-      handleCapture = ( target ) => {
-      
+    handleCapture = ( target ) => {
         if(target.files[0] !== null &&  target.files[0] !== undefined)
         {
             var fReader = new FileReader();
@@ -68,26 +55,70 @@ const useStyles = (theme) => ({
                 }
             }
         }
-      }
+    }
 
-     toggleImage = (photo) => {
+
+    toggleImage = (photo) => {
          document.execCommand('image', false, photo);
-     }
+    }
 
-     handleSelectColorChange = (event) => {
-         this.setState( {color: event.target.value} );
-     }
+    handleSelectColorChange = (event) => {
+        this.setState( {color: event.target.value} );
+    }
 
-     handleSelectNameChange = (event) => {
-         this.setState( {fontName: event.target.value} );
-     }
+    handleSelectNameChange = (event) => {
+        this.setState( {fontName: event.target.value} );
+    }
+
+    setOpen = (arg) => {
+        this.setState({open: arg})
+    }
+
+    handleClickOpen = () => {
+      this.setOpen(true);
+    }
+
+    handleClose = () => {
+      this.setOpen(false);
+      this.setState({newEmail: ''});
+    }
+
+    handleAddEmail = () => {
+        if (this.props.onAddEmail){
+            this.props.onAddEmail(this.state.newEmail)
+        }
+        this.handleClose()
+    }
+
+    handleImage = ( target ) => {
+
+        if(target.files[0] !== null &&  target.files[0] !== undefined)
+        {
+            var fReader = new FileReader();
+            fReader.readAsDataURL(target.files[0]);
+            fReader.onloadend = (event) => 
+            {
+                if (event) {
+                    this.setState({url:event?.target?.result});                    
+                }
+            }
+        }
+    }
+    setwidthImage = (val) => {
+        this.setState({widthpx: val})
+    }
+
+    setheightImage = (val) => {
+        this.setState({heightpx: val})
+    }
+
 
     render () {
         const { classes } = this.props
         return(
             <div id="items-bar">
                 <Grid container spacing={1}>
-                    <Grid item xs={9}>
+                    <Grid item xs={12}>
                         <div id="items-bar-1">
                             <Button id="bold-btn"
                                     onClick={() => (document.execCommand('bold'))}><b>B</b>
@@ -120,7 +151,35 @@ const useStyles = (theme) => ({
                                     onClick={() =>  (document.execCommand('insertimage', 0, this.state.url))} startIcon={<FullScreenIcon/>}
                             />
 
+                            <Button variant="outlined" color="primary" size="small" onClick={this.handleClickOpen}>
+                                Invite
+                            </Button>
+                            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">Invite with email</DialogTitle>
+                                <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="title"
+                                    label="Email"
+                                    type="text"
+                                    value={this.state.newEmail}
+                                    onChange={(e) => { this.setState({ newEmail: e.target.value }) }}
+                                    required
+                                    fullWidth
+                                  />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button variant="contained" color="secondary" onClick={this.handleClose} >
+                                        Cancel
+                                    </Button>
+                                  <Button variant="contained" color="primary" onClick={this.handleAddEmail}>
+                                    Give access
+                                  </Button>
+                                </DialogActions>
+                            </Dialog>
                         </div>
+
                         <div id="items-bar-2">
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="select-font-color">Font color</InputLabel>
@@ -172,49 +231,48 @@ const useStyles = (theme) => ({
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                            <Button id="sizeFontLess-btn" onClick={() => {
-                                    if (this.state.fontSize >= 2) {
-                                        const newSize = this.state.fontSize - 1
-                                        this.setState({fontSize: newSize})
-                                        document.execCommand('fontSize', false, newSize.toString());
+                            <div>
+                                <Button id="sizeFontLess-btn" onClick={() => {
+                                        if (this.state.fontSize >= 2) {
+                                            const newSize = this.state.fontSize - 1
+                                            this.setState({fontSize: newSize})
+                                            document.execCommand('fontSize', false, newSize.toString());
+                                        }
+                                        else {
+                                            document.execCommand('fontSize', false, "1");
+                                        }
                                     }
-                                    else {
-                                        document.execCommand('fontSize', false, "1");
+                                } startIcon={<RemoveIcon />}/>
+                                <TextField
+                                    id="fontSize-textField"
+                                    InputLabelProps={{ readOnly: true }}
+                                    label={"Font size 1-7"}
+                                    value={this.state.fontSize}
+                                    size={"small"} />
+                                <Button id="sizeFontPlus-btn" onClick={() => {
+                                        if (this.state.fontSize <= 6) {
+                                            const newSize = this.state.fontSize + 1
+                                            this.setState({fontSize: newSize})
+                                            document.execCommand('fontSize', false, newSize.toString());
+                                        }
+                                        else {
+                                            document.execCommand('fontSize', false, "7");
+                                        }
                                     }
-                                }
-                            } startIcon={<RemoveIcon />}/>
-                            <TextField
-                                id="fontSize-textField"
-                                InputLabelProps={{ readOnly: true }}
-                                label={"Font size 1-7"}
-                                value={this.state.fontSize}
-                                size={"small"} />
-                            <Button id="sizeFontPlus-btn" onClick={() => {
-                                    if (this.state.fontSize <= 6) {
-                                        const newSize = this.state.fontSize + 1
-                                        this.setState({fontSize: newSize})
-                                        document.execCommand('fontSize', false, newSize.toString());
-                                    }
-                                    else {
-                                        document.execCommand('fontSize', false, "7");
-                                    }
-                                }
-                            } startIcon={<AddIcon />}/>
-                            <input type="file"
-                                id="myfile" 
-                                name="myfile"
-                                accept="image/"
-                                onChange={() => {
-                                    if ("myfile" !== null && "myfile" !== undefined)
-                                    {
-                                        this.handleCapture(document.getElementById('myfile'))
-                                    }
-                                } }
-                            />       
+                                } startIcon={<AddIcon />}/>
+                                <input type="file"
+                                    id="myfile" 
+                                    name="myfile"
+                                    accept="image/"
+                                    onChange={() => {
+                                        if ("myfile" !== null && "myfile" !== undefined)
+                                        {
+                                            this.handleCapture(document.getElementById('myfile'))
+                                        }
+                                    } }
+                                />
+                            </div>
                         </div>        
-                    </Grid>
-                    <Grid item xs={3}>
-                        <CollabList/>
                     </Grid>
                 </Grid>
             </div>
@@ -223,7 +281,19 @@ const useStyles = (theme) => ({
  }
 
 ItemBar.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    add_user: PropTypes.func.isRequired,
 }
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
 
- export default withStyles(useStyles)(ItemBar)
+export default connect(
+  mapStateToProps,
+  {
+    logoutUser,
+    add_user,
+  }
+) (withStyles(useStyles)(ItemBar))
+

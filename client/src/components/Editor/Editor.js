@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import './Editor.css'
-import '../ItemBar/ItemBar.css'
 import socketIOClient from 'socket.io-client'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/login";
-import { load_docs, save_doc } from '../../actions/docs';
+import { load_docs, save_doc, add_user } from '../../actions/docs';
+import UserBubble from '../UserBubble/UserBubble'
+import TopBar from '../TopBar/TopBar'
+import ItemBar from '../ItemBar/ItemBar'
+import '../../App.css'
 
 // construct socket
-const socket = socketIOClient('http://localhost:8000')
+const socket = socketIOClient('http://localhost:8000');
+
 
 class Editor extends Component {
   constructor (props) {
@@ -19,7 +22,7 @@ class Editor extends Component {
       name: '',
       creator: '',
       text: '',
-      list_users: [{}]
+      input_mail: [],
     }
     this.setTextFromSocket()
     this.handleSendingToSocket = this.handleSendingToSocket.bind(this)
@@ -32,49 +35,103 @@ class Editor extends Component {
     const body = {
       id: id
     }
+    this.setState({document_id: id});
     this.props.load_docs(body);
+    this.setState({text: this.props.doc.content})
   }
 
- save_doc = e => {
-    e.preventDefault();
+  // after event of typing in div-editor, set text with the new value
+  // and send it by socket message, found in server.js
+
+  // SOCKET : asynchronous so can't send this.state.text (or there is a character missing)
+  handleSendingToSocket () {
+    const id = this.state.document_id
+    const doc = document.getElementById(`div-editor-${this.state.document_id}`).innerHTML
+    const data = {'id': id,'doc': doc}
+    this.setState({text: doc})
+    socket.send(data)
+    this.save_doc()
+  }
+
+  // SOCKET : Listen on messages incoming from socket and set text with data from Socket if current document match
+  setTextFromSocket () {
+    socket.on('message', (data) => {
+      if (data.id === this.state.document_id)
+        document.getElementById(`div-editor-${this.state.document_id}`).innerHTML = data.doc
+      this.setState({ text: data.doc })
+    })
+  }
+
+  // BACK : Add user on collaborator list of the current document
+  add_user = e => {
+    var length = this.state.input_mail.length
+    const body = {
+      email: this.state.input_mail[length-1],
+      _id: this.state.document_id,
+    }
+    this.props.add_user(body);
+    window.location.reload(true);
+  }
+
+  // BACK : Update content attribute on current document with this.state.text
+  save_doc = e => {
     const SavedData = {
-      _id: this.props.doc._id,
-      name: '/TODO',
-      content: '/TODO'
+      _id: this.state.document_id,
+      name: this.props.doc.name,
+      content: this.state.text
     }
     this.props.save_doc(SavedData);
   }
 
-  // after event of typing in textbox, set text with the new value
-  // and send it by socket message, found in server.js
-
-  // asynchronous so can't send this.state.text (or there is a character missing)
-  handleSendingToSocket () {
-    var doc = document.getElementById('div-editor').innerHTML
-    socket.send(doc)
+  // FRONT : Push data from invite popup on state array input_mail and call add_user
+  handleAddEmail = (newCollab) => {
+    this.state.input_mail.push(newCollab);
+    this.add_user()
   }
 
-  // Listen on messages incoming from socket and set text with data from Socket
-  setTextFromSocket () {
-    socket.on('message', (data) => {
-      document.getElementById('div-editor').innerHTML = data
-      this.setState({ text: data })
-    })
+  // FRONT : Set current div with doc.content save in database
+  handleContent = () => {
+    document.getElementById(`div-editor-${this.state.document_id}`).innerHTML = this.props.doc.content
   }
 
   render () {
-    console.log(this.props.auth.user);
-    console.log(this.props.doc)
+    const { user } = this.props.auth;
+    const completeName = user.firstname + ' ' + user.name;
+
+    if (this.props.doc.content !== undefined && document.getElementById(`div-editor-${this.state.document_id}`).innerHTML === "<div></div>") {
+      this.handleContent()
+    }
     return (
-      <div>
-        <div>
-          <div suppressContentEditableWarning={true}
-            id='div-editor'
-            contentEditable='true'
-            spellCheck="true"
-            onInput={this.handleSendingToSocket}>
-            <div>{this.props.doc.creator}<br/></div>
+      <div className='App'>
+        <header className='App-header'>
+          <TopBar completeName={completeName} docName={this.props.doc.name} />
+          <ItemBar onAddEmail={this.handleAddEmail} />
+        </header>
+        <div className='App-body-doc'>
+          <div 
+          style={{
+            border: '1px solid gray',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '600px',
+            height: '750px',
+            overflow: 'auto',
+            margin: 'auto',
+            padding: '2px',
+            resize: 'both',
+
+            backgroundColor: 'white',
+            color: 'black'
+          }}
+          suppressContentEditableWarning={true}
+          id={`div-editor-${this.state.document_id}`}
+          contentEditable='true'
+          spellCheck="true"
+          onInput={this.handleSendingToSocket}>
+
+            <div></div>
           </div>
+          <UserBubble list_users={this.props.doc.list_users}/>
         </div>
       </div>
     )
@@ -83,7 +140,8 @@ class Editor extends Component {
 
 Editor.propTypes = {
   auth: PropTypes.object.isRequired,
-  doc: PropTypes.object.isRequired
+  doc: PropTypes.object.isRequired,
+  add_user: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -95,6 +153,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
+    add_user,
     logoutUser,
     load_docs,
     save_doc

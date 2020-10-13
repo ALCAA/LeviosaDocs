@@ -44,6 +44,20 @@ export const save_doc = data => dispatch => {
     )
 }
 
+export const add_user = list_users => dispatch => {
+  axios
+    .post('/docs/add_user', list_users)
+    .then(res => {
+      console.log(list_users)
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    )
+}
+
 // Set current document
 export const setCurrentDocument = data => {
   return {

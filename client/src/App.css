@@ -1,5 +1,5 @@
 .App {
-  background-color:dimgrey;
+  background-color: antiquewhite;
 }
 
 .Login, .Signup, .Dashboard {
@@ -23,13 +23,6 @@
   margin-top: 14px;
 }
 
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header, .App-body-doc {
   display: flex;
   flex-direction: column;
@@ -38,29 +31,37 @@
   background-color: antiquewhite;
 }
 
-.App-body-doc {
-  display: flex;
-  flex-direction: row;
-  margin: 200px auto;
-}
-
 .App-header {
   position: fixed;
   width: 100%;
   top: 0;
 }
 
-
-
-.App-link {
-  color: #61dafb;
+@media only screen 
+and (min-device-width : 0px)
+and (max-device-width : 700px)  {
+  .App-body-doc {
+    display: flex;
+    flex-direction: column;
+    margin: 280px auto;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media only screen 
+and (min-device-width : 700px)  {
+  .App-body-doc {
+    display: flex;
+    flex-direction: row;
+    margin: 250px 10px 0px 10px;
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+@media only screen 
+and (min-device-width : 900px)  {
+    #items-bar-2, #items-bar-3  {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+    }
 }
