@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Editor.css'
 import socketIOClient from 'socket.io-client'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,6 +7,7 @@ import { load_docs, save_doc, add_user } from '../../actions/docs';
 import UserBubble from '../UserBubble/UserBubble'
 import TopBar from '../TopBar/TopBar'
 import ItemBar from '../ItemBar/ItemBar'
+import '../../App.css'
 
 // construct socket
 const socket = socketIOClient('http://localhost:8000');
@@ -51,8 +51,8 @@ class Editor extends Component {
 
   // asynchronous so can't send this.state.text (or there is a character missing)
   handleSendingToSocket () {
-    var id = this.state.document_id
-    var doc = document.getElementById(`div-editor-${this.state.document_id}`).innerHTML
+    const id = this.state.document_id
+    const doc = document.getElementById(`div-editor-${this.state.document_id}`).innerHTML
     const data = {'id': id,'doc': doc}
     this.setState({text: doc})
     socket.send(data)
@@ -68,12 +68,6 @@ class Editor extends Component {
     })
   }
 
-  handleAddEmail = (newCollab) => {
-    this.state.input_mail.push(newCollab);
-    console.log(this.state.input_mail)
-    this.add_user()
-  }
-
   add_user = e => {
     var length = this.state.input_mail.length
     console.log(length)
@@ -85,6 +79,7 @@ class Editor extends Component {
         _id: _id,
       }
       this.props.add_user(body);
+      window.location.reload(true);
   }
 
  save_doc = e => {
@@ -96,15 +91,10 @@ class Editor extends Component {
     this.props.save_doc(SavedData);
   }
 
-  
-
-  stripHtml = (html) => {
-      // Create a new div element
-      const temporalDivElement = document.createElement("div");
-      // Set the HTML content with the providen
-      temporalDivElement.innerHTML = html;
-      // Retrieve the text property of the element (cross-browser support)
-      return temporalDivElement.innerText
+  handleAddEmail = (newCollab) => {
+    this.state.input_mail.push(newCollab);
+    console.log(this.state.input_mail)
+    this.add_user()
   }
 
   setwidthImage = (val) => {
@@ -116,9 +106,11 @@ class Editor extends Component {
 
   handleFileSet = (url) => {
     this.setState({url2: url})
-  }
+  } 
 
-    
+  handleContent = () => {
+    document.getElementById(`div-editor-${this.state.document_id}`).innerHTML = this.props.doc.content
+  }
 
   render () {
     const { user } = this.props.auth;
@@ -126,11 +118,14 @@ class Editor extends Component {
     const completeName = user.firstname + ' ' + user.name;
     console.log(this.props.doc);
     console.log(this.state.document_id)
+    if (this.props.doc.content !== undefined && document.getElementById(`div-editor-${this.state.document_id}`).innerHTML === "<div></div>") {
+      this.handleContent()
+    }
     return (
       <div className='App'>
         <header className='App-header'>
           <TopBar completeName={completeName} docName={this.props.doc.name} />
-          <ItemBar onAddEmail={this.handleAddEmail} onAddFile={this.handleFile} onFileSet={this.handleFileSet} />
+          <ItemBar onAddEmail={this.handleAddEmail} onAddFile={this.handleFile} onFileSet={this.handleFileSet} user={this.state.name} />
         </header>
         <div className='App-body-doc'>
           <div 
@@ -154,9 +149,7 @@ class Editor extends Component {
           spellCheck="true"
           ref={this.myRef}
           onInput={this.handleSendingToSocket}>
-            <div>
-            {this.stripHtml(this.props.doc.content)}
-            </div>
+            <div></div>
           </div>
           <UserBubble list_users={this.props.doc.list_users}/>
         </div>
