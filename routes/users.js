@@ -111,7 +111,7 @@ router.post('/login', (req, res) => {
 
 router.post('/find_name', (req, res) => {
   User
-    .findOne({ _id: req.body })
+    .findOne({ _id: req.body.id })
     .then(user => res.json(user))
     .catch(err => console.log(err))
 })
