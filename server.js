@@ -32,7 +32,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 // DB Config
-const db = require('./config/keys').mongoURI
+const db = process.env.MONGOURI
 
 // Connect to MongoDB
 mongoose
@@ -66,5 +66,13 @@ io.on('connection', (socket) => {
       console.log('some people left');
     })
 })
+
+if (process.env.NODE_ENV === "production")
+{
+	app.use(express.static(path.join(__dirname, 'client/build')));
+	app.get('/*', (req, res) => {
+  		res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+	});
+}
 
 server.listen(port, () => console.log(`server listening on port: ${port}`));
