@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard'
 
 import { Provider } from 'react-redux'
 import store from './store'
-import jwt_decode from 'jwt-decode'
+import jwtdecode from 'jwt-decode'
 
 import { setCurrentUser, logoutUser } from './actions/login'
 import setAuthToken from './utils/setAuthToken'
@@ -20,7 +20,7 @@ if (localStorage.jwtToken) {
   const token = localStorage.jwtToken
   setAuthToken(token)
   // Decode token and get user info and exp
-  const decoded = jwt_decode(token)
+  const decoded = jwtdecode(token)
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded))
   // Check for expired token
@@ -36,16 +36,16 @@ if (localStorage.jwtToken) {
 
 function App () {
   return (
-  	<Provider store={store}>
-    	<Router>
-      		<Switch>
-      		  <Route exact path='/' render={() => <Redirect to='/login' />} />
-        		<Route exact path='/login' component={Login} />
-        		<Route exact path='/signup' component={Signup} />
-            <PrivateRoute path='/dashboard' component={Dashboard} />
-        		<PrivateRoute path='/:id/edit' component={Editor} />
-      		</Switch>
-    	</Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path='/' render={() => <Redirect to='/login' />} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/signup' component={Signup} />
+          <PrivateRoute path='/dashboard' component={Dashboard} />
+          <PrivateRoute path='/:id/edit' component={Editor} />
+        </Switch>
+      </Router>
     </Provider>
   )
 }

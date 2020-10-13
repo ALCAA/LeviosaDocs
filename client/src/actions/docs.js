@@ -44,7 +44,6 @@ export const save_doc = data => dispatch => {
     )
 }
 
-
 export const add_user = list_users => dispatch => {
   axios
     .post('/docs/add_user', list_users)
