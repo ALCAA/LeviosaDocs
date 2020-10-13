@@ -85,6 +85,13 @@ router.post('/get_info', (req, res) =>
 		.catch(err => console.log(err))
 })
 
+router.post('/get_info_user', (req, res) => 
+{
+    User.findOne({ _id: req.body.id })
+        .then(user => res.json(user))
+        .catch(err => console.log(err))
+})
+
 // @route POST docs/show_iscreator
 // @desc Show documents own by an user
 // @access Public
