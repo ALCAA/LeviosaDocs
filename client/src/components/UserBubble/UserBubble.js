@@ -14,22 +14,26 @@ class UserBubble extends Component {
   }
 
   render () {
-    const creator = this.props.doc.creator
+    let completename = ''
+    const { user } = this.props.auth
     let test = []
     if (this.props.list_users !== undefined)
     {
       this.props.list_users.forEach(elt => 
         test.push(elt.firstname + ' ' + elt.name))
     }
+    if (user !== undefined) {
+      completename = user.firstname + ' ' + user.name
+    }
     return (
-      <div className='users'>
+      <div className='div-users'>
         <div className='creator-div'>
           <h2>Creator</h2>
           <div className='usersicons'>
-            {creator !== undefined
-              ? <Tooltip title={creator}>
-                <span id='cretor' className='userinfo'>
-                  <Identicon className='accountavatar' style={{ backgroundColor: this.props.doc.randomcolor }} size={40} string={this.props.doc.creator} />
+            {user !== undefined
+              ? <Tooltip title={completename}>
+                <span id='creator' className='userinfo'>
+                  <Identicon className='accountavatar' style={{ backgroundColor: user.randomcolor }} size={40} string={user} />
                 </span>
                 </Tooltip>
               : ''}
@@ -39,7 +43,15 @@ class UserBubble extends Component {
         <div className='users-div'>
           <h2>Collaborators</h2>
           <div className='usersicons'>
-            {test}
+           {
+            test.map( user =>
+              <Tooltip title={user} key={user}>
+                <span id={user} className="userinfo">
+                  <Identicon className="accountavatar" style={{ backgroundColor: user.randomcolor }} size={40} string={user} />
+                </span>
+              </Tooltip>
+              )
+           } 
           </div>
         </div>
       </div>

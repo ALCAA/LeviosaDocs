@@ -14,8 +14,12 @@
   align-items: center;        /* center items horizontally, in this case */
 }
 
-#submit-login {
+#submit-login, #no-account, #logout, #create_docs {
   margin-top: 10px;
+}
+
+ul {
+  list-style-type: none;
 }
 
 
@@ -45,6 +49,12 @@ and (max-device-width : 700px)  {
     flex-direction: column;
     margin: 280px auto;
   }
+  .div-editor {
+    margin: auto;
+  }
+  .div-users {
+    margin: 50px auto;
+  }
 }
 
 @media only screen 
@@ -58,10 +68,10 @@ and (min-device-width : 700px)  {
 
 @media only screen 
 and (min-device-width : 900px)  {
-    #items-bar-2, #items-bar-3  {
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-        align-items: center;
-    }
+  #items-bar-2, #items-bar-3  {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      align-items: center;
+  }
 }

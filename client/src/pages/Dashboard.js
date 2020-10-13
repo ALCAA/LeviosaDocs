@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { is_creator, is_collaborator } from '../actions/docs';
+import '../App.css'
 
 class Logged extends Component {
   constructor (props) {
@@ -28,6 +29,7 @@ class Logged extends Component {
 
   create_docs = e => {
     const { user } = this.props.auth;
+    console.log(user)
     const docsData = {
       name: this.state.docName,
       creator : user.id,
@@ -62,6 +64,7 @@ class Logged extends Component {
     let created_docs = [];
     if (createddoc !== undefined)
     {
+      console.log(createddoc)
       for (var item in createddoc)
       {
         created_docs.push(<li><a href={`${createddoc[item]._id}/edit`}> {createddoc[item].name} - {`${createddoc[item].date_modif}`}</a></li>);
@@ -89,7 +92,7 @@ class Logged extends Component {
           <h2 id="created">Documents you created</h2>
             <ul align="center">{created_docs}</ul>
           <h2>Documents shared with you</h2>
-            <ul>{shared_docs}</ul>
+            <ul align="center">{shared_docs}</ul>
           <div className='login-items'>
             <Button id='create_docs' variant="contained" color="primary" onClick={this.handleClickOpen}>
             Create new document

@@ -1,5 +1,16 @@
-.users {
+.div-users {
 	margin: 0px 25px;
+}
+
+
+@media only screen 
+and (max-device-width : 700px) {
+	.div-users {
+		margin: 50px 50px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
 }
 
 .users-div, .creator-div {

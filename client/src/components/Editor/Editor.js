@@ -116,7 +116,6 @@ class Editor extends Component {
             width: '600px',
             height: '750px',
             overflow: 'auto',
-            margin: 'auto',
             padding: '2px',
             resize: 'both',
 
@@ -125,6 +124,7 @@ class Editor extends Component {
           }}
           suppressContentEditableWarning={true}
           id={`div-editor-${this.state.document_id}`}
+          className="div-editor"
           contentEditable='true'
           spellCheck="true"
           onInput={this.handleSendingToSocket}>
