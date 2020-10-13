@@ -102,7 +102,7 @@ router.post('/show_iscreator', (req, res) =>
 router.post('/show_iscollaborator', (req, res) => 
 {
 	docs
-		.find({ list_users: { $in: req.body.user } })
+		.find({ 'list_users.email' : req.body.useremail })
 		.then(docs => res.json(docs))
 		.catch(err => console.log(err))
 })
