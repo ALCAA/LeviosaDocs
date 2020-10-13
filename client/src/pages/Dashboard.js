@@ -29,14 +29,12 @@ class Logged extends Component {
 
   create_docs = e => {
     const { user } = this.props.auth;
-    console.log(user)
     const docsData = {
       name: this.state.docName,
       creator : user.id,
       content: this.state.docContent
     }
     this.props.create_docs(docsData);
-    console.log(this.props.create_docs);
   }
 
   handleClickOpen = () => {
@@ -50,11 +48,13 @@ class Logged extends Component {
   componentDidMount() {
     const { user } = this.props.auth;
     const data = {
-      user : user.id
+      user : user.id,
+    }
+    const data2 = {
       useremail : user.email
     }
     this.props.is_creator(data);
-    this.props.is_collaborator(data);
+    this.props.is_collaborator(data2);
   }
 
   render () {
@@ -65,7 +65,6 @@ class Logged extends Component {
     let created_docs = [];
     if (createddoc !== undefined)
     {
-      console.log(createddoc)
       for (var item in createddoc)
       {
         created_docs.push(<li><a href={`${createddoc[item]._id}/edit`}> {createddoc[item].name} - {`${createddoc[item].date_modif}`}</a></li>);

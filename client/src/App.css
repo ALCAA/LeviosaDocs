@@ -14,7 +14,7 @@
   align-items: center;        /* center items horizontally, in this case */
 }
 
-#submit-login, #no-account, #logout, #create_docs {
+#submit-login, #no-account, #logout, #create_docs, #got-account, #submit-login {
   margin-top: 10px;
 }
 
