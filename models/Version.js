@@ -12,7 +12,7 @@ const VersionSchema = new Schema({
     required: true
   },
   tag: {
-  	type: String,
+  	type: String
   },
   date: {
     type: Date,

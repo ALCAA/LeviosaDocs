@@ -14,7 +14,7 @@ const cookieParser = require('cookie-parser')
 // Routes
 const users = require('./routes/users')
 const docs = require('./routes/docs')
-const versions  = require('./routes/versions')
+const versions = require('./routes/versions')
 
 // Setup server
 const port = process.env.PORT || 8000
@@ -54,17 +54,17 @@ app.use('/users', users)
 app.use('/docs', docs)
 app.use('/versions', versions)
 
-//Listen for incoming connection event
-//then listen for incoming message on recepted messages
-//and broadcast message, found in setTextFromSocket in Editor.js
+// Listen for incoming connection event
+// then listen for incoming message on recepted messages
+// and broadcast message, found in setTextFromSocket in Editor.js
 io.on('connection', (socket) => {
-    console.log("New client connected : " + socket.id);
-    socket.on('message', (evt) => {
-        socket.broadcast.emit('message', evt);
-    });
-    socket.on('disconnect', () => {
-      console.log('some people left');
-    })
+  console.log('New client connected : ' + socket.id)
+  socket.on('message', (evt) => {
+    socket.broadcast.emit('message', evt)
+  })
+  socket.on('disconnect', () => {
+    console.log('some people left')
+  })
 })
 
-server.listen(port, () => console.log(`server listening on port: ${port}`));
+server.listen(port, () => console.log(`server listening on port: ${port}`))
