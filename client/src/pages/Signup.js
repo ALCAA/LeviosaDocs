@@ -37,6 +37,9 @@ class Signup extends React.Component {
         <header className='App-header' />
         <div className='App-body-signup'>
           <h1>Sign up page</h1>
+          <a href='https://github.com/ALCAA/LeviosaDocs'>
+            <img width='36' height='36' alt='' src='GitHub.png' target="_blank"/>
+          </a>
           <form autoComplete='off' noValidate>
             <div className='login-items'>
               <div className='login-textfield'>

@@ -55,7 +55,7 @@ class Login extends React.Component {
         <div className='App-body-login'>
           <h1>Welcome to LeviosaDocs</h1>
           <a href='https://github.com/ALCAA/LeviosaDocs'>
-            <img width='36' height='36' alt='' src='GitHub.png' />
+            <img width='36' height='36' alt='' src='GitHub.png' target="_blank"/>
           </a>
           <form autoComplete='off' noValidate>
             <div className='login-items'>
