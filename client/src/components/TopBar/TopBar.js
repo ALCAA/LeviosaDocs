@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AppBar, Toolbar, Button, Typography } from '@material-ui/core'
+import { Toolbar, AppBar, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles'
 import { logoutUser } from "../../actions/login";
 import { connect } from "react-redux";
@@ -15,10 +15,37 @@ const useStyles = (theme) => ({
 })
 
 class TopBar extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      newName: '',
+      open: false,
+    }
+  }
   onLogoutClick = e => {
     e.preventDefault();
     this.props.logoutUser();
   };
+
+  setOpen = (arg) => {
+    this.setState({open: arg})
+  }
+
+  handleClickOpen = () => {
+    this.setOpen(true);
+  }
+
+  handleClose = () => {
+    this.setOpen(false);
+  }
+
+  handleChangeName = () => {
+    if (this.props.onChangeName){
+        this.props.onChangeName(this.state.newName)
+    }
+    this.handleClose()
+  }
 
   render () {
     const { classes } = this.props
@@ -27,11 +54,35 @@ class TopBar extends React.Component {
         <div className={classes.root}>
           <AppBar position='static'>
             <Toolbar>
-              <Typography variant='h6' className={classes.title}>
-                                {this.props.docName}
-              </Typography>
+            <Button style={{color: 'white'} }onClick={this.handleClickOpen} className={classes.title}> {this.props.docName}
+              <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Change Document Name</DialogTitle>
+                  <DialogContent>
+                  <TextField
+                      autoFocus
+                      margin="dense"
+                      id="title"
+                      label="Email"
+                      type="text"
+                      value={this.state.newName}
+                      onChange={(e) => { this.setState({ newName: e.target.value }) }}
+                      required
+                      fullWidth
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                      <Button variant="contained" color="secondary" onClick={this.handleClose} >
+                          Cancel
+                      </Button>
+                    <Button variant="contained" color="primary" onClick={this.handleChangeName}>
+                      Give access
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Button>
               <Button color='inherit'>{this.props.completeName}</Button>
-              <Button id='logout' variant='contained' color='secondary' onClick={this.onLogoutClick}>
+              <Button id='dashboard-top-bar' variant='contained'color='default' href="/dashboard">Dashboard</Button>
+              <Button id='logout-top-bar' variant='contained' color='secondary' onClick={this.onLogoutClick}>
                 Logout
               </Button>
             </Toolbar>

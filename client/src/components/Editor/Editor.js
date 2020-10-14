@@ -83,6 +83,17 @@ class Editor extends Component {
     this.props.save_doc(SavedData);
   }
 
+  handleChangeName = (newDocName) => {
+    this.setState ({name: newDocName});
+    const body = {
+      _id: this.state.document_id,
+      name: newDocName,
+      content: this.state.text,
+    }
+    this.props.save_doc(body)
+    window.location.reload(true)
+  }
+
   // FRONT : Push data from invite popup on state array input_mail and call add_user
   handleAddEmail = (newCollab) => {
     this.state.input_mail.push(newCollab);
@@ -97,14 +108,14 @@ class Editor extends Component {
   render () {
     const { user } = this.props.auth;
     const completeName = user.firstname + ' ' + user.name;
-
+    
     if (this.props.doc.content !== undefined && document.getElementById(`div-editor-${this.state.document_id}`).innerHTML === "<div></div>") {
       this.handleContent()
     }
     return (
       <div className='App'>
         <header className='App-header'>
-          <TopBar completeName={completeName} docName={this.props.doc.name} />
+          <TopBar completeName={completeName} docName={this.props.doc.name} onChangeName={this.handleChangeName}/>
           <ItemBar onAddEmail={this.handleAddEmail} />
         </header>
         <div className='App-body-doc'>
