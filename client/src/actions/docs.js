@@ -16,6 +16,20 @@ export const create_docs = groupData => dispatch => {
     )
 }
 
+export const delete_docs = id => dispatch => {
+  axios
+    .post('/docs/delete', id)
+    .then(res => {
+      window.location.href = '/dashboard'
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    )
+}
+
 export const load_docs = id => dispatch => {
   axios
     .post('/docs/get_info', id)
@@ -33,9 +47,6 @@ export const load_docs = id => dispatch => {
 export const save_doc = data => dispatch => {
   axios
     .post('/docs/save', data)
-    .then(res => {
-      console.log(res.data)
-    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -47,9 +58,6 @@ export const save_doc = data => dispatch => {
 export const add_user = list_users => dispatch => {
   axios
     .post('/docs/add_user', list_users)
-    .then(res => {
-      console.log(list_users)
-    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

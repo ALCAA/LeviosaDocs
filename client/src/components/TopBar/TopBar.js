@@ -4,6 +4,8 @@ import { Toolbar, AppBar, Button, TextField, Dialog, DialogActions, DialogConten
 import { withStyles } from '@material-ui/core/styles'
 import { logoutUser } from "../../actions/login";
 import { connect } from "react-redux";
+import { delete_docs } from "../../actions/docs";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = (theme) => ({
   root: {
@@ -47,6 +49,15 @@ class TopBar extends React.Component {
     this.handleClose()
   }
 
+  delete = e => {
+    e.preventDefault()
+    console.log('abuse')
+    const datatosubmit = {
+      _id : this.props.document_id
+    }
+    this.props.delete_docs(datatosubmit)
+  }
+
   render () {
     const { classes } = this.props
     return (
@@ -81,10 +92,9 @@ class TopBar extends React.Component {
                 </Dialog>
               </Button>
               <Button color='inherit'>{this.props.completeName}</Button>
-              <Button id='dashboard-top-bar' variant='contained'color='default' href="/dashboard">Dashboard</Button>
-              <Button id='logout-top-bar' variant='contained' color='secondary' onClick={this.onLogoutClick}>
-                Logout
-              </Button>
+              <Button onClick={this.delete} startIcon={<DeleteIcon />}/>
+              <Button id='dashboard-top-bar' variant='contained'color='default' href='/dashboard'>Dashboard</Button>
+              <Button id='logout-top-bar' variant='contained' color='secondary' onClick={this.onLogoutClick}>Logout</Button>
             </Toolbar>
           </AppBar>
         </div>
@@ -109,5 +119,6 @@ export default connect(
   mapStateToProps,
   {
     logoutUser,
+    delete_docs
   }
 ) (withStyles(useStyles)(TopBar)); 

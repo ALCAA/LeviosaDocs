@@ -115,7 +115,7 @@ class Editor extends Component {
     return (
       <div className='App'>
         <header className='App-header'>
-          <TopBar completeName={completeName} docName={this.props.doc.name} onChangeName={this.handleChangeName}/>
+          <TopBar completeName={completeName} docName={this.props.doc.name} onChangeName={this.handleChangeName} document_id={this.state.document_id}/>
           <ItemBar onAddEmail={this.handleAddEmail} />
         </header>
         <div className='App-body-doc'>

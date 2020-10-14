@@ -70,6 +70,10 @@ class Logged extends Component {
         created_docs.push(<li><a href={`${createddoc[item]._id}/edit`}> {createddoc[item].name} - {`${createddoc[item].date_modif}`}</a></li>);
       }
     }
+    if (createddoc.length === 0)
+    {
+      created_docs.push('No created documents')
+    }
 
     let shared_docs = [];
     if (shareddoc !== undefined)
@@ -79,7 +83,7 @@ class Logged extends Component {
         shared_docs.push(<li><a href={`${shareddoc[item2]._id}/edit`}> {shareddoc[item2].name} - {`${shareddoc[item2].date_modif}`}</a></li>);
       }
     }
-    else if (shareddoc === undefined)
+    if (shareddoc.length === 0)
     {
       shared_docs.push('No shared documents')
     }
@@ -157,6 +161,6 @@ export default connect(
     logoutUser,
     is_creator,
     is_collaborator,
-    create_docs
+    create_docs,
   }
 )(Logged); 

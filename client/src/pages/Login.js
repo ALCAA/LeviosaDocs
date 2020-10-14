@@ -54,6 +54,9 @@ class Login extends React.Component {
         <header className='App-header' />
         <div className='App-body-login'>
           <h1>Welcome to LeviosaDocs</h1>
+          <a href='https://github.com/ALCAA/LeviosaDocs'>
+            <img width='36' height='36' alt='' src='GitHub.png' />
+          </a>
           <form autoComplete='off' noValidate>
             <div className='login-items'>
               <div className='mt-14'>
@@ -69,6 +72,7 @@ class Login extends React.Component {
               <div className='mt-14'>
                 <TextField
                   id='password'
+                  type='password'
                   label='Password'
                   variant='outlined'
                   value={this.state.password}

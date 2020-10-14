@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-const PrivateRouteFR = ({ component: Component, auth, ...rest }) => (
+const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
     render={props =>
@@ -15,7 +15,7 @@ const PrivateRouteFR = ({ component: Component, auth, ...rest }) => (
   />
 )
 
-PrivateRouteFR.propTypes = {
+PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired
 }
 
@@ -23,4 +23,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps)(PrivateRouteFR)
+export default connect(mapStateToProps)(PrivateRoute)
