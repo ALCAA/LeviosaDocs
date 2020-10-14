@@ -7,7 +7,6 @@ import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ImageIcon from '@material-ui/icons/Image';
-import FullScreenIcon from '@material-ui/icons/Fullscreen';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
@@ -38,30 +37,18 @@ const useStyles = (theme) => ({
              newEmail: '',
              open: false,
              url:"",
-             width:0,
-             height:0
+            
          }
      }
 
-    handleCapture = ( target ) => {
-        if(target.files[0] !== null &&  target.files[0] !== undefined)
-        {
-            var fReader = new FileReader();
-            fReader.readAsDataURL(target.files[0]);
-            fReader.onloadend = (event) => 
-            {
-                if (event) {
-                    this.setState({url:event?.target?.result});
-                }
-            }
-        }
-    }
+   
 
 
     toggleImage = (photo) => {
          document.execCommand('image', false, photo);
     }
 
+    
     handleSelectColorChange = (event) => {
         this.setState( {color: event.target.value} );
     }
@@ -83,6 +70,7 @@ const useStyles = (theme) => ({
       this.setState({newEmail: ''});
     }
 
+    
     handleAddEmail = () => {
         if (this.props.onAddEmail){
             this.props.onAddEmail(this.state.newEmail)
@@ -90,6 +78,7 @@ const useStyles = (theme) => ({
         this.handleClose()
     }
 
+    
     handleImage = ( target ) => {
 
         if(target.files[0] !== null &&  target.files[0] !== undefined)
@@ -146,9 +135,6 @@ const useStyles = (theme) => ({
                             />
                             <Button  id="image-btn"                     
                                     onClick={() =>  (document.execCommand('insertimage', 0, this.state.url))} startIcon={<ImageIcon/>}
-                            />
-                            <Button  id="resize-btn"                     
-                                    onClick={() =>  (document.execCommand('insertimage', 0, this.state.url))} startIcon={<FullScreenIcon/>}
                             />
 
                             <Button variant="outlined" color="primary" size="small" onClick={this.handleClickOpen}>
@@ -267,7 +253,7 @@ const useStyles = (theme) => ({
                                     onChange={() => {
                                         if ("myfile" !== null && "myfile" !== undefined)
                                         {
-                                            this.handleCapture(document.getElementById('myfile'))
+                                            this.handleImage(document.getElementById('myfile'))
                                         }
                                     } }
                                 />
