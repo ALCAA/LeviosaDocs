@@ -1,0 +1,14 @@
+#items-bar {
+    background-color: #e0e0e0;
+    text-align: center;
+    flex-direction: column;
+}
+
+#fontSize-textField {
+    text-align: center;
+    width: 100px;
+}
+
+#fontSize-input {
+    padding: 6px 8px
+}

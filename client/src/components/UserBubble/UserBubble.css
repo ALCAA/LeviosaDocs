@@ -1,0 +1,46 @@
+.div-users {
+	margin: 0px 25px;
+}
+
+
+@media only screen 
+and (max-device-width : 700px) {
+	.div-users {
+		margin: 50px 50px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+}
+
+.users-div, .creator-div {
+	margin: 0px 0px 50px 0px;
+	padding: 10px;
+}
+
+h2 {
+	margin: 0px;
+	color: ;
+}
+
+.usersicons	 {
+  margin: 20px 0;
+  display: flex;
+}
+
+.userinfo {
+	width: 40px;
+	height: 40px;
+	display: -webkit-flex;
+	display: flex;
+	border-radius: 50%;
+	margin-right: 10px;
+	background: #FFF;
+}
+
+.accountavatar {
+	height: 64px;
+	width: 64px;
+	border-radius: 50%;
+	overflow: hidden;
+}
