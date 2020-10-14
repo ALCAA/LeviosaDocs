@@ -1,0 +1,82 @@
+.App {
+  background-color: antiquewhite;
+}
+
+.Login, .Signup, .Dashboard {
+  text-align: center;
+  margin-top: 10%;
+}
+
+.login-items {
+  display: flex;              /* establish flex container */
+  flex-direction: column;     /* stack flex items vertically */
+  justify-content: center;    /* center items vertically, in this case */
+  align-items: center;        /* center items horizontally, in this case */
+}
+
+#submit-login, #no-account, #logout, #create_docs, #got-account, #submit-login {
+  margin-top: 10px;
+}
+
+#dashboard-top-bar, #logout-top-bar {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+.mt-14{
+  margin-top: 14px;
+}
+
+.App-header, .App-body-doc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  background-color: antiquewhite;
+}
+
+.App-header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+@media only screen 
+and (min-device-width : 0px)
+and (max-device-width : 700px)  {
+  .App-body-doc {
+    display: flex;
+    flex-direction: column;
+    margin: 280px auto;
+  }
+  .div-editor {
+    margin: auto;
+  }
+  .div-users {
+    margin: 50px auto;
+  }
+}
+
+@media only screen 
+and (min-device-width : 700px)  {
+  .App-body-doc {
+    display: flex;
+    flex-direction: row;
+    margin: 250px 10px 0px 10px;
+  }
+}
+
+@media only screen 
+and (min-device-width : 900px)  {
+  #items-bar-2, #items-bar-3  {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      align-items: center;
+  }
+}
