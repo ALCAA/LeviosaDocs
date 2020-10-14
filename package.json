@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "archi": "[ -f package.json -a -f client/package.json ]",
-    "coding-style": "npx standard",
+    "coding-style": "standard 'routes/doc.js' 'validatore/*js' 'server.js'",
     "test": "npm install && npm run archi && npm run coding-style",
     "start": "node server.js"
   },
