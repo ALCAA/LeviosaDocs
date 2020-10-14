@@ -7,7 +7,9 @@ import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ImageIcon from '@material-ui/icons/Image';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
+import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import { add_user } from "../../actions/docs";
@@ -32,6 +34,7 @@ const useStyles = (theme) => ({
          super(props);
          this.state = {
              color: "black",
+             backColor: "white",
              fontName: "arial",
              fontSize: 5,
              newEmail: '',
@@ -51,6 +54,9 @@ const useStyles = (theme) => ({
     
     handleSelectColorChange = (event) => {
         this.setState( {color: event.target.value} );
+    }
+    handleSelectBackColorChange = (event) => {
+        this.setState( {backColor: event.target.value} );
     }
 
     handleSelectNameChange = (event) => {
@@ -130,8 +136,14 @@ const useStyles = (theme) => ({
                             <Button id="ul-btn"
                                     onClick={() => (document.execCommand('insertUnorderedList'))} startIcon={<FormatListBulletedIcon />}
                             />
-                            <Button id="justify-btn"
-                                    onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FilterListIcon />}
+                            <Button id="justify-center-btn"
+                                    onClick={() => (document.execCommand('justifyCenter'))} startIcon={<FormatAlignCenterIcon />}
+                            />
+                            <Button id="justify-left-btn"
+                                    onClick={() => (document.execCommand('justifyLeft'))} startIcon={<FormatAlignLeftIcon />}
+                            />
+                            <Button id="justify-right-btn"
+                                    onClick={() => (document.execCommand('justifyRight'))} startIcon={<FormatAlignRightIcon />}
                             />
                             <Button  id="image-btn"                     
                                     onClick={() =>  (document.execCommand('insertimage', 0, this.state.url))} startIcon={<ImageIcon/>}
@@ -179,6 +191,9 @@ const useStyles = (theme) => ({
                                         onClick={() => document.execCommand('foreColor', false, "black")} value="black">Black
                                     </MenuItem>
                                     <MenuItem
+                                        onClick={() => document.execCommand('foreColor', false, "white")} value="white">White
+                                    </MenuItem>
+                                    <MenuItem
                                         onClick={() => document.execCommand('foreColor', false, "red")} value="red">Red
                                     </MenuItem>
                                     <MenuItem
@@ -189,6 +204,34 @@ const useStyles = (theme) => ({
                                     </MenuItem>
                                     <MenuItem
                                         onClick={() => document.execCommand('foreColor', false, "green")} value="green">Green
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="select-font-color">Background color</InputLabel>
+                                <Select
+                                    labelId="select-color-label"
+                                    id="select-color"
+                                    value={this.state.backColor}
+                                    onChange={this.handleSelectBackColorChange}
+                                >
+                                    <MenuItem
+                                        onClick={() => document.execCommand('hiliteColor', false, "white")} value="white">White
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => document.execCommand('hiliteColor', false, "black")} value="black">Black
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => document.execCommand('hiliteColor', false, "red")} value="red">Red
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => document.execCommand('hiliteColor', false, "blue")} value="blue">Blue
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => document.execCommand('hiliteColor', false, "yellow")} value="yellow">Yellow
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => document.execCommand('hiliteColor', false, "green")} value="green">Green
                                     </MenuItem>
                                 </Select>
                             </FormControl>

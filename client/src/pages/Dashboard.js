@@ -94,10 +94,10 @@ class Logged extends Component {
         <div className='App-body-dash'>
           <h1>Glad to see you {user.firstname} !</h1>
           <h2 id="created">Documents you created</h2>
-            <ul align="center">{created_docs}</ul>
+            <ul id="shared-ul" align="center">{created_docs}</ul>
           <h2>Documents shared with you</h2>
-            <ul align="center">{shared_docs}</ul>
-          <div className='login-items'>
+            <ul id="created-ul" align="center">{shared_docs}</ul>
+          <div id="created_docs" className='login-items'>
             <Button id='create_docs' variant="contained" color="primary" onClick={this.handleClickOpen}>
             Create new document
             </Button>

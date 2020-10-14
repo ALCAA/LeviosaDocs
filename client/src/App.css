@@ -23,7 +23,7 @@
   margin-right: 5px;
 }
 
-ul {
+#shared-ul, #created-ul {
   list-style-type: none;
 }
 
