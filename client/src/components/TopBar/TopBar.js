@@ -51,7 +51,6 @@ class TopBar extends React.Component {
 
   delete = e => {
     e.preventDefault()
-    console.log('abuse')
     const datatosubmit = {
       _id : this.props.document_id
     }
@@ -65,32 +64,32 @@ class TopBar extends React.Component {
         <div className={classes.root}>
           <AppBar position='static'>
             <Toolbar>
-            <Button style={{color: 'white'} }onClick={this.handleClickOpen} className={classes.title}> {this.props.docName}
+              <Button style={{color: 'white'} } onClick={this.handleClickOpen} className={classes.title}> {this.props.docName}
+              </Button>
               <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Change Document Name</DialogTitle>
-                  <DialogContent>
+                <DialogTitle id="form-dialog-title">Change document name</DialogTitle>
+                <DialogContent>
                   <TextField
                       autoFocus
                       margin="dense"
                       id="title"
-                      label="Email"
+                      label="New document name"
                       type="text"
                       value={this.state.newName}
                       onChange={(e) => { this.setState({ newName: e.target.value }) }}
                       required
                       fullWidth
                     />
-                  </DialogContent>
-                  <DialogActions>
-                      <Button variant="contained" color="secondary" onClick={this.handleClose} >
-                          Cancel
-                      </Button>
-                    <Button variant="contained" color="primary" onClick={this.handleChangeName}>
-                      Give access
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </Button>
+                </DialogContent>
+                <DialogActions>
+                  <Button variant="contained" color="secondary" onClick={this.handleClose} >
+                      Cancel
+                  </Button>
+                  <Button variant="contained" color="primary" onClick={this.handleChangeName}>
+                  Change name
+                  </Button>
+                </DialogActions>
+              </Dialog>
               <Button color='inherit'>{this.props.completeName}</Button>
               <Button onClick={this.delete} startIcon={<DeleteIcon />}/>
               <Button id='dashboard-top-bar' variant='contained'color='default' href='/dashboard'>Dashboard</Button>
