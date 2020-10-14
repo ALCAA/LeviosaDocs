@@ -10,7 +10,7 @@ import ItemBar from '../ItemBar/ItemBar'
 import '../../App.css'
 
 // construct socket
-const socket = socketIOClient('http://localhost:8000');
+const socket = socketIOClient('https://leviosadocs.herokuapp.com');
 
 
 class Editor extends Component {

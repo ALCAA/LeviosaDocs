@@ -10,6 +10,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 
 // Routes
 const users = require('./routes/users')
@@ -31,13 +32,10 @@ app.use(
 app.use(bodyParser.json())
 app.use(cookieParser())
 
-// DB Config
-const db = require('./config/keys').mongoURI
-
 // Connect to MongoDB
 mongoose
   .connect(
-    db,
+    process.env.MONGOURI,
     { useNewUrlParser: true }
   )
   .then(() => console.log('MongoDB successfully connected'))
@@ -66,5 +64,13 @@ io.on('connection', (socket) => {
     console.log('some people left')
   })
 })
+
+if (process.env.NODE_ENV === "production")
+{
+	app.use(express.static(path.join(__dirname, 'client/build')));
+	app.get('/*', (req, res) => {
+  		res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+	});
+}
 
 server.listen(port, () => console.log(`server listening on port: ${port}`))
